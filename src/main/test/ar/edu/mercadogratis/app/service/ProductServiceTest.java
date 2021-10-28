@@ -1,6 +1,7 @@
 package ar.edu.mercadogratis.app.service;
 
 import ar.edu.mercadogratis.app.dao.GenericDao;
+import ar.edu.mercadogratis.app.dao.ProductRepository;
 import ar.edu.mercadogratis.app.model.Product;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,8 +24,8 @@ public class ProductServiceTest {
     @TestConfiguration
     static class TestContextConfiguration {
         @Bean
-        public ProductService addressSearchService(GenericDao<Product> productDao) {
-            return new ProductService(productDao);
+        public ProductService addressSearchService(ProductRepository productRepository) {
+            return new ProductService(productRepository);
         }
     }
 
@@ -32,7 +33,7 @@ public class ProductServiceTest {
     private ProductService productService;
 
     @MockBean
-    private GenericDao<Product> productDao;
+    private ProductRepository productRepository;
 
     @Test
     void testGetProduct() {
@@ -40,7 +41,7 @@ public class ProductServiceTest {
         Long productId = 1L;
         Product product = mock(Product.class);
 
-        when(productDao.get(eq(productId))).thenReturn(product);
+        when(productRepository.findById(eq(productId))).thenReturn(Optional.of(product));
 
         // when
         Optional<Product> result = productService.getProduct(productId);
@@ -54,14 +55,14 @@ public class ProductServiceTest {
     void testSaveProduct() {
         // given
         Product product = mock(Product.class);
-        when(productDao.save(eq(product))).thenReturn(2L);
+        when(productRepository.save(eq(product))).thenReturn(product);
 
         // when
-        Long result = productService.saveProduct(product);
+        Product result = productService.saveProduct(product);
 
         // then
-        verify(productDao).save(eq(product));
-        assertThat(result).isEqualTo(2L);
+        verify(productRepository).save(eq(product));
+        assertThat(result).isEqualTo(product);
     }
 
     @Test
@@ -73,7 +74,7 @@ public class ProductServiceTest {
         productService.updateProduct(product);
 
         // then
-        verify(productDao).update(eq(product));
+        verify(productRepository).save(eq(product));
     }
 
     @Test
@@ -81,10 +82,10 @@ public class ProductServiceTest {
         // given
         Product product = mock(Product.class);
 
-        when(productDao.list()).thenReturn(List.of(product));
+        when(productRepository.findAll()).thenReturn(List.of(product));
 
         // when
-        List<Product> products = productService.listProducts();
+        Iterable<Product> products = productService.listProducts();
 
         // then
         assertThat(products).containsExactly(product);

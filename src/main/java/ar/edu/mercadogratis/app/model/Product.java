@@ -4,24 +4,30 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
 @Entity
-@Builder
-@AllArgsConstructor
 @Table(name="PRODUCT")
 public class Product extends BaseEntity {
 
+    @NotBlank
     private String name;
     private String description;
+    @NotNull
     private ProductCategory category;
+    @Min(1)
     private BigDecimal price;
     private int stock;
+    @NotBlank
     private String seller;
 
     @Override

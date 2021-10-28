@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/products")
@@ -23,18 +24,18 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> saveProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> saveProduct(@Valid @RequestBody Product product) {
         return ResponseEntity.ok(productService.saveProduct(product));
     }
 
     @PutMapping
-    public ResponseEntity<String> updateProduct(@RequestBody Product product) {
+    public ResponseEntity<String> updateProduct(@Valid @RequestBody Product product) {
         productService.updateProduct(product);
         return ResponseEntity.ok("ok");
     }
 
     @GetMapping
-    public List<Product> listProducts() {
+    public Iterable<Product> listProducts() {
         return productService.listProducts();
     }
 }

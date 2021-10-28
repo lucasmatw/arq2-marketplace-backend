@@ -51,7 +51,7 @@ public class HibernateConfiguration {
 		return dataSource;
 	}
 
-	@Bean
+	@Bean(name="entityManagerFactory")
 	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());

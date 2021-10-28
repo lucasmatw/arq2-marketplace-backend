@@ -1,6 +1,7 @@
 package ar.edu.mercadogratis.app.service;
 
 import ar.edu.mercadogratis.app.dao.GenericDao;
+import ar.edu.mercadogratis.app.dao.ProductRepository;
 import ar.edu.mercadogratis.app.model.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,25 +15,26 @@ import java.util.Optional;
 @Service
 public class ProductService {
 
-    private final GenericDao<Product> productDao;
+//    private final GenericDao<Product> productDao;
+    private final ProductRepository productRepository;
 
     @Transactional
     public Optional<Product> getProduct(Long productId) {
-        return Optional.ofNullable(productDao.get(productId));
+        return productRepository.findById(productId);
     }
 
     @Transactional
-    public Long saveProduct(Product product) {
-        return productDao.save(product);
+    public Product saveProduct(Product product) {
+        return productRepository.save(product);
     }
 
     @Transactional
     public void updateProduct(Product product) {
-        productDao.update(product);
+        productRepository.save(product);
     }
 
     @Transactional
-    public List<Product> listProducts() {
-        return productDao.list();
+    public Iterable<Product> listProducts() {
+        return productRepository.findAll();
     }
 }
