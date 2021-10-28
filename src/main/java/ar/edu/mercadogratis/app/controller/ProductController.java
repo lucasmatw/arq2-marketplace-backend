@@ -23,6 +23,12 @@ public class ProductController {
                 .orElseThrow(() -> new NotFoundException("product_not_found", "Product not found: " + productId));
     }
 
+    @DeleteMapping ("/{productId}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
+        productService.deleteProduct(productId);
+        return ResponseEntity.ok("ok");
+    }
+
     @PostMapping
     public ResponseEntity<Product> saveProduct(@Valid @RequestBody Product product) {
         return ResponseEntity.ok(productService.saveProduct(product));

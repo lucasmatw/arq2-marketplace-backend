@@ -2,6 +2,7 @@ package ar.edu.mercadogratis.app.model;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -16,19 +17,29 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name="PRODUCT")
+@SQLDelete(sql = "UPDATE Product SET status = 'DELETED' WHERE id=?")
 public class Product extends BaseEntity {
 
     @NotBlank
     private String name;
+
     private String description;
+
+    @Enumerated(EnumType.STRING)
     @NotNull
     private ProductCategory category;
+
     @Min(1)
     private BigDecimal price;
+
     private int stock;
+
     @NotBlank
     private String seller;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private ProductStatus status;
 
     @Override
     public boolean equals(Object o) {

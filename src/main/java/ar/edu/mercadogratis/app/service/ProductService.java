@@ -15,7 +15,6 @@ import java.util.Optional;
 @Service
 public class ProductService {
 
-//    private final GenericDao<Product> productDao;
     private final ProductRepository productRepository;
 
     @Transactional
@@ -36,5 +35,10 @@ public class ProductService {
     @Transactional
     public Iterable<Product> listProducts() {
         return productRepository.findAll();
+    }
+
+    @Transactional
+    public void deleteProduct(Long productId) {
+        productRepository.deleteById(productId);
     }
 }

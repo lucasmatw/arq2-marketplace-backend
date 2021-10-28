@@ -5,12 +5,11 @@ entity Product {
     *id
     *price
     *stock
-    name
-    category
-    --
+    *name
+    *category
+    *status
     description
 }
-
 
 entity User {
     *id

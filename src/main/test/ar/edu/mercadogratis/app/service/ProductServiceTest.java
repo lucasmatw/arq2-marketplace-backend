@@ -90,4 +90,14 @@ public class ProductServiceTest {
         // then
         assertThat(products).containsExactly(product);
     }
+
+    @Test
+    void testDeleteProduct() {
+        // given
+        // when
+        productService.deleteProduct(1L);
+
+        // then
+        verify(productRepository, times(1)).deleteById(eq(1L));
+    }
 }
