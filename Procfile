@@ -1,2 +1,2 @@
-web: java -jar target/mercadogratis.jar ar.edu.mercadogratis.app.SpringBootHibernateApplication
+web: java -jar target/mercadogratis.jar
 
