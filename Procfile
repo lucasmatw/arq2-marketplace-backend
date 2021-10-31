@@ -1,2 +1,2 @@
-web: java -jar target/mercadogratis.jar
+web: java -jar -Dserver.port=$PORT target/mercadogratis.jar
 
