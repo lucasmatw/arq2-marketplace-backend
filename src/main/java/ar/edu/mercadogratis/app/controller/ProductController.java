@@ -2,12 +2,15 @@ package ar.edu.mercadogratis.app.controller;
 
 import ar.edu.mercadogratis.app.model.Product;
 import ar.edu.mercadogratis.app.exceptions.NotFoundException;
+import ar.edu.mercadogratis.app.model.ProductCategory;
+import ar.edu.mercadogratis.app.model.SearchProductRequest;
 import ar.edu.mercadogratis.app.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 
 @RestController
@@ -23,7 +26,7 @@ public class ProductController {
                 .orElseThrow(() -> new NotFoundException("product_not_found", "Product not found: " + productId));
     }
 
-    @DeleteMapping ("/{productId}")
+    @DeleteMapping("/{productId}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
         productService.deleteProduct(productId);
         return ResponseEntity.ok("ok");
@@ -43,5 +46,14 @@ public class ProductController {
     @GetMapping
     public Iterable<Product> listProducts() {
         return productService.listProducts();
+    }
+
+    @GetMapping("/search")
+    public Iterable<Product> searchProducts(@RequestParam String name, @RequestParam Optional<ProductCategory> category) {
+        SearchProductRequest search = SearchProductRequest.builder()
+                .category(category)
+                .name(name)
+                .build();
+        return productService.searchProduct(search);
     }
 }
