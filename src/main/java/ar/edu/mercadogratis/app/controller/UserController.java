@@ -3,6 +3,8 @@ package ar.edu.mercadogratis.app.controller;
 import java.util.List;
 
 import org.apache.commons.mail.EmailException;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +54,19 @@ public class UserController {
 			
 		}
 		return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+
+	}
+	@RequestMapping(value = "/user/changePassword", method = RequestMethod.POST, headers = "Accept=application/json")
+	public ResponseEntity changePassword(@RequestBody String stringJson) {	
+		Long idUser;
+		try {
+		     JSONObject userWithNewPassword = new JSONObject(stringJson);
+		      idUser=userService.changePassword(userWithNewPassword);
+		}catch (RuntimeException |JSONException err){
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+		}
+		return ResponseEntity.ok().body(idUser);
+
 
 	}
 	

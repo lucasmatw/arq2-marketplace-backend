@@ -35,7 +35,7 @@ public class ProductService {
     }
 
     @Transactional
-    public Iterable<Product> listProducts() {
+    public Iterable<Product> listProducts(String userSeller) {
         return productRepository.findAll();
     }
 
@@ -46,7 +46,7 @@ public class ProductService {
 
     @Transactional
     public List<Product> searchProduct(SearchProductRequest searchProductRequest) {
-        return searchProductRequest.getCategory()
+        return (List<Product>) searchProductRequest.getCategory()
                 .map(category -> productRepository.searchProductByNameAndCategory(searchProductRequest.getName(), category))
                 .orElse(productRepository.searchProductByName(searchProductRequest.getName()));
     }
