@@ -44,8 +44,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public Iterable<Product> listProducts(@RequestParam String userSeller) {
-        return productService.listProducts(userSeller);
+    public Iterable<Product> listProducts(@RequestParam String seller) {
+        return productService.listProducts(seller);
     }
 
     @GetMapping("/search")

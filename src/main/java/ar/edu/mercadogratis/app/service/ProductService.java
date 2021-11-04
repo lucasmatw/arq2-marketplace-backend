@@ -33,8 +33,8 @@ public class ProductService {
     }
 
     @Transactional
-    public Iterable<Product> listProducts(String userSeller) {
-        return productRepository.findAll();
+    public Iterable<Product> listProducts(String seller) {
+        return productRepository.findBySeller(seller);
     }
 
     @Transactional

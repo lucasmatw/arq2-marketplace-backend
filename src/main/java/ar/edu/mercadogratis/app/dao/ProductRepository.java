@@ -14,4 +14,7 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, L
 
     @Query("select p from Product p where p.name like %?1% and p.category = ?2 and p.status = 'ACTIVE'")
     List<Product> searchProductByNameAndCategory(String name, ProductCategory category);
+
+    @Query("select p from Product p where p.seller = ?1 and p.status <> 'DELETED'")
+    Iterable<Product> findBySeller(String seller);
 }

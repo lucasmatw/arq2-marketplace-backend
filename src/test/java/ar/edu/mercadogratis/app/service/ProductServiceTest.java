@@ -81,11 +81,11 @@ public class ProductServiceTest {
     void testListProducts() {
         // given
         Product product = mock(Product.class);
-
-        when(productRepository.findAll()).thenReturn(List.of(product));
+        String seller = "any_seller";
+        when(productRepository.findBySeller(eq(seller))).thenReturn(List.of(product));
 
         // when
-        Iterable<Product> products = productService.listProducts();
+        Iterable<Product> products = productService.listProducts(seller);
 
         // then
         assertThat(products).containsExactly(product);
