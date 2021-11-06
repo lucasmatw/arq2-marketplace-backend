@@ -3,6 +3,8 @@ package ar.edu.mercadogratis.app.service;
 import ar.edu.mercadogratis.app.dao.GenericDao;
 import ar.edu.mercadogratis.app.dao.ProductRepository;
 import ar.edu.mercadogratis.app.model.Product;
+import ar.edu.mercadogratis.app.model.ProductCategory;
+import ar.edu.mercadogratis.app.model.SearchProductRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +13,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static ar.edu.mercadogratis.app.model.ProductCategory.TECHNOLOGY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -24,7 +28,7 @@ public class ProductServiceTest {
     @TestConfiguration
     static class TestContextConfiguration {
         @Bean
-        public ProductService addressSearchService(ProductRepository productRepository) {
+        public ProductService productService(ProductRepository productRepository) {
             return new ProductService(productRepository);
         }
     }
@@ -99,5 +103,47 @@ public class ProductServiceTest {
 
         // then
         verify(productRepository, times(1)).deleteById(eq(1L));
+    }
+
+    @Test
+    void testSearchProductByNameAndCategory() {
+        // given
+        SearchProductRequest searchRequest = SearchProductRequest.builder()
+                .name("celular")
+                .category(Optional.of(TECHNOLOGY))
+                .build();
+
+        List<Product> productList = Arrays.asList(mock(Product.class));
+
+        when(productRepository.searchProductByNameAndCategory(eq("celular"), eq(TECHNOLOGY)))
+                .thenReturn(productList);
+
+        // when
+        List<Product> products = productService.searchProduct(searchRequest);
+
+        // then
+        assertThat(products).isEqualTo(productList);
+        verify(productRepository, times(1)).searchProductByNameAndCategory(eq("celular"), eq(TECHNOLOGY));
+    }
+
+    @Test
+    void testSearchProductByName() {
+        // given
+        SearchProductRequest searchRequest = SearchProductRequest.builder()
+                .name("celular")
+                .category(Optional.empty())
+                .build();
+
+        List<Product> productList = Arrays.asList(mock(Product.class));
+
+        when(productRepository.searchProductByName(eq("celular")))
+                .thenReturn(productList);
+
+        // when
+        List<Product> products = productService.searchProduct(searchRequest);
+
+        // then
+        assertThat(products).isEqualTo(productList);
+        verify(productRepository, times(1)).searchProductByName(eq("celular"));
     }
 }

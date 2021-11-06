@@ -3,6 +3,7 @@ package ar.edu.mercadogratis.app.service;
 import ar.edu.mercadogratis.app.dao.ProductRepository;
 import ar.edu.mercadogratis.app.dao.UserDaoImpl;
 import ar.edu.mercadogratis.app.model.User;
+import org.apache.commons.mail.EmailException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,6 @@ public class UserServiceTest {
 
     @Test
     public void testAddUser() {
-       // when()
         String email = "validemail@mail.com";
         User user = User.builder()
                 .email(email)
@@ -57,5 +57,35 @@ public class UserServiceTest {
         assertThat(userId).isEqualTo(1L);
         assertThat(user.getPassword()).isEqualTo(pwd);
         verify(emailService).send(eq(email), anyString(), eq("Tu password es: " + pwd));
+    }
+
+    @Test
+    public void testGetUser() {
+        User user = User.builder()
+                .build();
+
+        when(userDao.get(eq(1L))).thenReturn(user);
+
+        User result = userService.getUser(1L);
+
+        assertThat(result).isEqualTo(user);
+    }
+
+    @Test
+    public void testForgetPassword() {
+
+        String email = "validemail@mail.com";
+        String pwd = "pwd";
+
+        User user = User.builder()
+                .email(email)
+                .password(pwd)
+                .build();
+
+        when(userDao.getUser(eq(email))).thenReturn(user);
+
+        userService.forgetPassword(email);
+
+        verify(emailService).send(eq(email), eq("Bienvenido a MercadoGratis"), eq("Tu password es: " + pwd));
     }
 }

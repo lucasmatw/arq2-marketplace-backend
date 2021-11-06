@@ -48,7 +48,7 @@ public class UserService {
     }
 
     @Transactional
-    public void forgetPassword(String mail) throws EmailException {
+    public void forgetPassword(String mail) {
         User user = this.getUserForMail(mail);
         if (user != null) {
             emailService.send(user.getEmail(), "Bienvenido a MercadoGratis", "Tu password es: " + user.getPassword());

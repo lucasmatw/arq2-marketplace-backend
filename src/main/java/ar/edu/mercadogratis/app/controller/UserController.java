@@ -2,10 +2,9 @@ package ar.edu.mercadogratis.app.controller;
 
 import ar.edu.mercadogratis.app.model.User;
 import ar.edu.mercadogratis.app.service.UserService;
-import org.apache.commons.mail.EmailException;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,20 +14,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @Controller
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
 
     @RequestMapping(value = "/user/register", method = RequestMethod.POST, headers = "Accept=application/json")
     public ResponseEntity<Long> addUser(@RequestBody User user) {
         User userLogin = userService.getUserForMail(user.getEmail());
-		Long userId;
+        Long userId;
         if (userLogin == null) {
-			userId = userService.addUser(user);
+            userId = userService.addUser(user);
         } else {
-			userId = userLogin.getId();
-		}
+            userId = userLogin.getId();
+        }
         return ResponseEntity.ok(userId);
     }
 
@@ -38,20 +37,14 @@ public class UserController {
         if (userLogin != null && user.getPassword().equals(userLogin.getPassword())) {
             return ResponseEntity.ok().body(userLogin.getId());
         }
-        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+        return ResponseEntity.badRequest()
+                .body("Invalid user or password");
     }
 
     @RequestMapping(value = "/user/forgetPassword", method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity forgetPassword(@RequestBody User user) {
-        try {
-            userService.forgetPassword(user.getEmail());
-            return ResponseEntity.ok().body(null);
-
-        } catch (EmailException e) {
-
-        }
-        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
-
+    public ResponseEntity<String> forgetPassword(@RequestBody User user) {
+        userService.forgetPassword(user.getEmail());
+        return ResponseEntity.ok("success");
     }
 
     @RequestMapping(value = "/user/changePassword", method = RequestMethod.POST, headers = "Accept=application/json")
