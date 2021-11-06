@@ -1,7 +1,7 @@
 package ar.edu.mercadogratis.app.controller;
 
-import ar.edu.mercadogratis.app.model.Product;
 import ar.edu.mercadogratis.app.exceptions.NotFoundException;
+import ar.edu.mercadogratis.app.model.Product;
 import ar.edu.mercadogratis.app.model.ProductCategory;
 import ar.edu.mercadogratis.app.model.SearchProductRequest;
 import ar.edu.mercadogratis.app.service.ProductService;
