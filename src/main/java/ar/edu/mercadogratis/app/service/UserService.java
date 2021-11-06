@@ -1,9 +1,8 @@
 package ar.edu.mercadogratis.app.service;
 
-import ar.edu.mercadogratis.app.dao.UserDaoImpl;
+import ar.edu.mercadogratis.app.dao.UserRepository;
 import ar.edu.mercadogratis.app.model.User;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.mail.EmailException;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
@@ -15,18 +14,18 @@ import javax.transaction.Transactional;
 @Service("userService")
 public class UserService {
 
-    private final UserDaoImpl userDao;
+    private final UserRepository userRepository;
     private final IEmailService emailService;
     private final PasswordGeneratorService passwordGeneratorService;
 
     @Transactional
     public User getUser(Long id) {
-        return userDao.get(id);
+        return userRepository.findById(id).orElse(null);
     }
 
     @Transactional
     public User getUserForMail(String mail) {
-        return userDao.getUser(mail);
+        return userRepository.searchUserByEmail(mail).orElse(null);
     }
 
     @Transactional
@@ -35,7 +34,7 @@ public class UserService {
         sendRegistrationEmail(user, generatedPwd);
         user.setPassword(generatedPwd);
 
-        return userDao.save(user);
+        return userRepository.save(user).getId();
     }
 
     private void sendRegistrationEmail(User user, String generatedPwd) {
@@ -44,7 +43,7 @@ public class UserService {
 
     @Transactional
     public void updateUser(User user) {
-        userDao.update(user);
+        userRepository.save(user);
     }
 
     @Transactional
@@ -65,7 +64,7 @@ public class UserService {
             idUser = user.getId();
 
             user.setPassword(userWithNewPassword.getString("newpassword"));
-            userDao.save(user);
+            userRepository.save(user);
 
         } else {
             throw new RuntimeException("Error User o Password Ingresada");

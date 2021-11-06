@@ -1,9 +1,7 @@
 package ar.edu.mercadogratis.app.service;
 
-import ar.edu.mercadogratis.app.dao.ProductRepository;
-import ar.edu.mercadogratis.app.dao.UserDaoImpl;
+import ar.edu.mercadogratis.app.dao.UserRepository;
 import ar.edu.mercadogratis.app.model.User;
-import org.apache.commons.mail.EmailException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +10,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -23,7 +22,7 @@ import static org.mockito.Mockito.when;
 public class UserServiceTest {
 
     @MockBean
-    private UserDaoImpl userDao;
+    private UserRepository userRepository;
     @MockBean
     private IEmailService emailService;
     @MockBean
@@ -32,9 +31,9 @@ public class UserServiceTest {
     @TestConfiguration
     static class TestContextConfiguration {
         @Bean
-        public UserService userService(UserDaoImpl userDao, IEmailService emailService,
+        public UserService userService(UserRepository userRepository, IEmailService emailService,
                                                 PasswordGeneratorService passwordGeneratorService) {
-            return new UserService(userDao, emailService, passwordGeneratorService);
+            return new UserService(userRepository, emailService, passwordGeneratorService);
         }
     }
 
@@ -50,7 +49,11 @@ public class UserServiceTest {
 
         String pwd = "123add";
         when(passwordGeneratorService.generateRandom()).thenReturn(pwd);
-        when(userDao.save(eq(user))).thenReturn(1L);
+
+        User savedUser = user.toBuilder().
+                build();
+        savedUser.setId(1L);
+        when(userRepository.save(eq(user))).thenReturn(savedUser);
 
         Long userId = userService.addUser(user);
 
@@ -64,7 +67,7 @@ public class UserServiceTest {
         User user = User.builder()
                 .build();
 
-        when(userDao.get(eq(1L))).thenReturn(user);
+        when(userRepository.findById(eq(1L))).thenReturn(Optional.of(user));
 
         User result = userService.getUser(1L);
 
@@ -82,7 +85,7 @@ public class UserServiceTest {
                 .password(pwd)
                 .build();
 
-        when(userDao.getUser(eq(email))).thenReturn(user);
+        when(userRepository.searchUserByEmail(eq(email))).thenReturn(Optional.of(user));
 
         userService.forgetPassword(email);
 

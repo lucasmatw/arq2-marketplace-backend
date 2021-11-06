@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 @Setter
 @ToString
 @Entity
-@Builder
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class User extends BaseEntity {
