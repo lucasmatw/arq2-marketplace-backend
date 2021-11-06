@@ -1,10 +1,8 @@
 package ar.edu.mercadogratis.app.service;
 
 import ar.edu.mercadogratis.app.dao.UserDaoImpl;
-import ar.edu.mercadogratis.app.model.Email;
 import ar.edu.mercadogratis.app.model.User;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.mail.EmailException;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +16,8 @@ import javax.transaction.Transactional;
 public class UserService {
 
     private final UserDaoImpl userDao;
+    private final IEmailService emailService;
+    private final PasswordGeneratorService passwordGeneratorService;
 
     @Transactional
     public User getUser(Long id) {
@@ -30,18 +30,16 @@ public class UserService {
     }
 
     @Transactional
-    public Long addUser(User user) throws EmailException {
-        Email email = new Email();
-        if (Email.isValidEmailAddress(user.getEmail())) {
-            String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            String pwd = RandomStringUtils.random(15, characters);
-            user.setPassword(pwd);
-            Long idUser = userDao.save(user);
-            email.send(user.getEmail(), "Bienvenido a MercadoGratis", "Tu password es: " + user.getPassword());
-            return idUser;
-        }
-        return null;
+    public Long addUser(User user) {
+        String generatedPwd = passwordGeneratorService.generateRandom();
+        sendRegistrationEmail(user, generatedPwd);
+        user.setPassword(generatedPwd);
 
+        return userDao.save(user);
+    }
+
+    private void sendRegistrationEmail(User user, String generatedPwd) {
+        emailService.send(user.getEmail(), "Bienvenido a MercadoGratis", "Tu password es: " + generatedPwd);
     }
 
     @Transactional
@@ -51,13 +49,9 @@ public class UserService {
 
     @Transactional
     public void forgetPassword(String mail) throws EmailException {
-
-        Email email = new Email();
-        if (Email.isValidEmailAddress(mail)) {
-            User user = this.getUserForMail(mail);
-            if (user != null) {
-                email.send(user.getEmail(), "Bienvenido a MercadoGratis", "Tu password es: " + user.getPassword());
-            }
+        User user = this.getUserForMail(mail);
+        if (user != null) {
+            emailService.send(user.getEmail(), "Bienvenido a MercadoGratis", "Tu password es: " + user.getPassword());
         }
     }
 
