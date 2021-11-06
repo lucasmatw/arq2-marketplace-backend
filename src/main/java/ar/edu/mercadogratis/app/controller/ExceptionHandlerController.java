@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class ControllerExceptionHandler {
+public class ExceptionHandlerController {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiError> handleNotFoundException(NotFoundException e) {
