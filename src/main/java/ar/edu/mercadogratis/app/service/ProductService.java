@@ -1,6 +1,7 @@
 package ar.edu.mercadogratis.app.service;
 
 import ar.edu.mercadogratis.app.dao.ProductRepository;
+import ar.edu.mercadogratis.app.dao.specification.ProductSpecification;
 import ar.edu.mercadogratis.app.model.Product;
 import ar.edu.mercadogratis.app.model.SearchProductRequest;
 import lombok.RequiredArgsConstructor;
@@ -44,8 +45,6 @@ public class ProductService {
 
     @Transactional
     public List<Product> searchProduct(SearchProductRequest searchProductRequest) {
-        return searchProductRequest.getCategory()
-                .map(category -> productRepository.searchProductByNameAndCategory(searchProductRequest.getName(), category))
-                .orElse(productRepository.searchProductByName(searchProductRequest.getName()));
+        return productRepository.findAll(new ProductSpecification(searchProductRequest));
     }
 }

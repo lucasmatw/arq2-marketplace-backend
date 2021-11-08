@@ -104,46 +104,4 @@ public class ProductServiceTest {
         // then
         verify(productRepository, times(1)).deleteById(eq(1L));
     }
-
-    @Test
-    void testSearchProductByNameAndCategory() {
-        // given
-        SearchProductRequest searchRequest = SearchProductRequest.builder()
-                .name("celular")
-                .category(Optional.of(TECHNOLOGY))
-                .build();
-
-        List<Product> productList = Arrays.asList(mock(Product.class));
-
-        when(productRepository.searchProductByNameAndCategory(eq("celular"), eq(TECHNOLOGY)))
-                .thenReturn(productList);
-
-        // when
-        List<Product> products = productService.searchProduct(searchRequest);
-
-        // then
-        assertThat(products).isEqualTo(productList);
-        verify(productRepository, times(1)).searchProductByNameAndCategory(eq("celular"), eq(TECHNOLOGY));
-    }
-
-    @Test
-    void testSearchProductByName() {
-        // given
-        SearchProductRequest searchRequest = SearchProductRequest.builder()
-                .name("celular")
-                .category(Optional.empty())
-                .build();
-
-        List<Product> productList = Arrays.asList(mock(Product.class));
-
-        when(productRepository.searchProductByName(eq("celular")))
-                .thenReturn(productList);
-
-        // when
-        List<Product> products = productService.searchProduct(searchRequest);
-
-        // then
-        assertThat(products).isEqualTo(productList);
-        verify(productRepository, times(1)).searchProductByName(eq("celular"));
-    }
 }

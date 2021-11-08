@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.Optional;
 
 
@@ -49,10 +50,15 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public Iterable<Product> searchProducts(@RequestParam String name, @RequestParam Optional<ProductCategory> category) {
+    public Iterable<Product> searchProducts(@RequestParam Optional<String> name,
+                                            @RequestParam Optional<ProductCategory> category,
+                                            @RequestParam(name = "min_price") Optional<BigDecimal> minPrice,
+                                            @RequestParam(name = "max_price") Optional<BigDecimal> maxPrice) {
         SearchProductRequest search = SearchProductRequest.builder()
                 .category(category)
                 .name(name)
+                .maxPrice(maxPrice)
+                .minPrice(minPrice)
                 .build();
         return productService.searchProduct(search);
     }
