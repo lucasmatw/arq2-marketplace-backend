@@ -1,0 +1,31 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor client
+
+box Spring BE
+control ProductController
+participant ProductService
+participant ProductRepository
+end box
+database DB
+
+note over client, ProductController
+    params: name, category,
+    min_price, max_price
+end note
+client -> ProductController: GET search request
+
+
+ProductController -> ProductService: searchProduct
+ProductService -> ProductService: new Specification<Product>
+ProductService -> ProductRepository: findAll(spec)
+ProductRepository -> DB : SELECT product
+DB -> ProductRepository : rows
+ProductRepository -> ProductService : list<product>
+ProductService -> ProductController : list<product>
+ProductController -> client : JSON array<product>
+
+@enduml
