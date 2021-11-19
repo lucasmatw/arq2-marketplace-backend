@@ -12,7 +12,7 @@ import javax.validation.ValidationException;
 
 @Service
 @RequiredArgsConstructor
-public class GmailEmailService implements IEmailService {
+public class EmailService implements IEmailService {
 
     private final EmailProvider emailConfiguration;
 

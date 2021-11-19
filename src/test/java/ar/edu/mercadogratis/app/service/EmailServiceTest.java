@@ -14,18 +14,18 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.mockito.Mockito.*;
 
 @ExtendWith({SpringExtension.class})
-public class GmailEmailServiceTest {
+public class EmailServiceTest {
 
     @TestConfiguration
     static class TestContextConfiguration {
         @Bean
-        public GmailEmailService productService(EmailProvider emailProvider) {
-            return new GmailEmailService(emailProvider);
+        public EmailService productService(EmailProvider emailProvider) {
+            return new EmailService(emailProvider);
         }
     }
 
     @Autowired
-    private GmailEmailService gmailEmailService;
+    private EmailService emailService;
 
     @MockBean
     private EmailProvider emailProvider;
@@ -39,7 +39,7 @@ public class GmailEmailServiceTest {
         Email email = mock(Email.class);
         when(emailProvider.buildEmail()).thenReturn(email);
 
-        gmailEmailService.send(receiver, subject, message);
+        emailService.send(receiver, subject, message);
 
         verify(email).addTo(eq(receiver));
         verify(email).setMsg(eq(message));

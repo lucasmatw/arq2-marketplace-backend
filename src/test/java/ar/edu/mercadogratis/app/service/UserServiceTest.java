@@ -5,7 +5,6 @@ import ar.edu.mercadogratis.app.model.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
@@ -25,17 +24,17 @@ public class UserServiceTest {
     @MockBean
     private UserRepository userRepository;
     @MockBean
-    private GmailEmailService gmailEmailService;
+    private EmailService emailService;
     @MockBean
     private PasswordGeneratorService passwordGeneratorService;
 
     @TestConfiguration
     static class TestContextConfiguration {
         @Bean
-        public UserService userService(UserRepository userRepository, GmailEmailService gmailEmailService,
+        public UserService userService(UserRepository userRepository, EmailService emailService,
                                        PasswordGeneratorService passwordGeneratorService,
                                        MoneyAccountService moneyAccountService) {
-            return new UserService(userRepository, gmailEmailService, passwordGeneratorService, moneyAccountService);
+            return new UserService(userRepository, emailService, passwordGeneratorService, moneyAccountService);
         }
     }
 
@@ -64,7 +63,7 @@ public class UserServiceTest {
 
         assertThat(userId).isEqualTo(1L);
         assertThat(user.getPassword()).isEqualTo(pwd);
-        verify(gmailEmailService).send(eq(email), anyString(), eq("Tu password es: " + pwd));
+        verify(emailService).send(eq(email), anyString(), eq("Tu password es: " + pwd));
     }
 
     @Test
@@ -94,6 +93,6 @@ public class UserServiceTest {
 
         userService.forgetPassword(email);
 
-        verify(gmailEmailService).send(eq(email), eq("Bienvenido a MercadoGratis"), eq("Tu password es: " + pwd));
+        verify(emailService).send(eq(email), eq("Bienvenido a MercadoGratis"), eq("Tu password es: " + pwd));
     }
 }
