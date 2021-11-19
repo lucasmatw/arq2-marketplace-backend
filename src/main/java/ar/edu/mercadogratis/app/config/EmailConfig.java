@@ -1,6 +1,5 @@
 package ar.edu.mercadogratis.app.config;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,13 +8,19 @@ import org.springframework.context.annotation.Configuration;
 public class EmailConfig {
 
     @Bean
-    @ConditionalOnProperty(name = "mailing.enabled", havingValue = "true")
-    public EmailProvider enabledEmailConfiguration() {
+    @ConditionalOnProperty(name = "mailing.provider", havingValue = "mailgun")
+    public EmailProvider mailgunEmailConfiguration() {
         return new MailgunEmailProvider();
     }
 
     @Bean
-    @ConditionalOnProperty(name = "mailing.enabled", havingValue = "false")
+    @ConditionalOnProperty(name = "mailing.provider", havingValue = "gmail")
+    public EmailProvider gmailEmailConfiguration() {
+        return new GmailEmailProvider();
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "mailing.provider", havingValue = "disabled")
     public EmailProvider disabledEmailConfiguration() {
         return new DisabledEmailProvider();
     }
