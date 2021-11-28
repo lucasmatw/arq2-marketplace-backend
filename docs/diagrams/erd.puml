@@ -1,44 +1,140 @@
 @startuml
 'https://plantuml.com/class-diagram
+scale 1800*900
 
-entity Product {
-    *id
-    *price
-    *stock
-    *name
-    *category
-    *status
-    description
+
+abstract class BaseEntity [[java:ar.edu.mercadogratis.app.model.BaseEntity]] {
+	-{static} serialVersionUID: long
+	#id: Long
+	+getId(): Long
+	+setId(id: Long): void
+}
+interface Serializable {
+}
+Serializable <|.. BaseEntity
+
+
+class MoneyAccount [[java:ar.edu.mercadogratis.app.model.MoneyAccount]] {
+	-user: User
+	-balance: BigDecimal
+	+addToBalance(amount: BigDecimal): void
+	+subtractFromBalance(amount: BigDecimal): void
+	+{static} builder(): MoneyAccount.MoneyAccountBuilder
+	+toBuilder(): MoneyAccount.MoneyAccountBuilder
+	+MoneyAccount()
+	+MoneyAccount(user: User, balance: BigDecimal)
+	+getUser(): User
+	+getBalance(): BigDecimal
+	+setUser(user: User): void
+	+setBalance(balance: BigDecimal): void
+}
+class BaseEntity {
+}
+BaseEntity <|-- MoneyAccount
+User -- MoneyAccount
+
+
+class Product [[java:ar.edu.mercadogratis.app.model.Product]] {
+	-name: String
+	-description: String
+	-category: ProductCategory
+	-price: BigDecimal
+	-stock: int
+	-seller: String
+	-status: ProductStatus
+	+equals(o: Object): boolean
+	+hashCode(): int
+	+{static} builder(): Product.ProductBuilder
+	+toBuilder(): Product.ProductBuilder
+	+Product()
+	+Product(name: String, description: String, category: ProductCategory, price:
+BigDecimal, stock: int, seller: String, status: ProductStatus)
+	+getName(): String
+	+getDescription(): String
+	+getCategory(): ProductCategory
+	+getPrice(): BigDecimal
+	+getStock(): int
+	+getSeller(): String
+	+getStatus(): ProductStatus
+	+setName(name: String): void
+	+setDescription(description: String): void
+	+setCategory(category: ProductCategory): void
+	+setPrice(price: BigDecimal): void
+	+setStock(stock: int): void
+	+setSeller(seller: String): void
+	+setStatus(status: ProductStatus): void
+}
+class BaseEntity {
+}
+BaseEntity <|-- Product
+
+
+
+enum ProductCategory [[java:ar.edu.mercadogratis.app.model.ProductCategory]] {
+	TECHNOLOGY
+	FASHION
+	ELECTRICAL_APPLIANCE
 }
 
-entity User {
-    *id
-    *email
-    --
-    name
-    lastname
+
+class PurchaseProduct [[java:ar.edu.mercadogratis.app.model.PurchaseProduct]] {
+	-product: Product
+	-buyer: User
+	-creationDate: LocalDateTime
+	-quantity: int
+	-status: PurchaseStatus
+	+getPrice(): BigDecimal
+	+{static} builder(): PurchaseProduct.PurchaseProductBuilder
+	+PurchaseProduct()
+	+PurchaseProduct(product: Product, buyer: User, creationDate: LocalDateTime,
+ quantity: int, status: PurchaseStatus)
+	+getProduct(): Product
+	+getBuyer(): User
+	+getCreationDate(): LocalDateTime
+	+getQuantity(): int
+	+getStatus(): PurchaseStatus
+	+setProduct(product: Product): void
+	+setBuyer(buyer: User): void
+	+setCreationDate(creationDate: LocalDateTime): void
+	+setQuantity(quantity: int): void
+	+setStatus(status: PurchaseStatus): void
+}
+class BaseEntity {
+}
+BaseEntity <|-- PurchaseProduct
+User -- PurchaseProduct
+Product -- PurchaseProduct
+ProductCategory -- Product
+PurchaseStatus -- PurchaseProduct
+
+enum PurchaseStatus [[java:ar.edu.mercadogratis.app.model.PurchaseStatus]] {
+	CONFIRMED
 }
 
-entity SellingInfo {
-    *id
-    *type
-    --
-    name
+class User [[java:ar.edu.mercadogratis.app.model.User]] {
+	-name: String
+	-lastName: String
+	-email: String
+	-password: String
+	-cuit: String
+	+{static} builder(): User.UserBuilder
+	+toBuilder(): User.UserBuilder
+	+getName(): String
+	+getLastName(): String
+	+getEmail(): String
+	+getPassword(): String
+	+getCuit(): String
+	+setName(name: String): void
+	+setLastName(lastName: String): void
+	+setEmail(email: String): void
+	+setPassword(password: String): void
+	+setCuit(cuit: String): void
+	+toString(): String
+	+User(name: String, lastName: String, email: String, 
+password: String, cuit: String)
+	+User()
 }
-
-entity Purchase {
-    *id
-    *status
-    *quantity
-    *price
+class BaseEntity {
 }
-
-User --> SellingInfo
-
-User <|-- Product : seller
-
-Purchase --|> Product
-
-Purchase --|> User : buyer
-
+BaseEntity <|-- User
 @enduml
