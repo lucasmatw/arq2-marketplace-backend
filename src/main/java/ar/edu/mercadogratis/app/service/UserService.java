@@ -67,7 +67,7 @@ public class UserService {
         if (user != null && user.getPassword().equals(userWithNewPassword.getString("password"))) {
             idUser = user.getId();
 
-            user.setPassword(userWithNewPassword.getString("newpassword"));
+            user.setPassword(userWithNewPassword.getString("new_password"));
             userRepository.save(user);
 
         } else {
