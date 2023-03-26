@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringBootHibernateApplication {
+public class SpringWebFluxApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringBootHibernateApplication.class, args);
+        SpringApplication.run(SpringWebFluxApp.class, args);
     }
 }

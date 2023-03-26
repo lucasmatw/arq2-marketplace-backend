@@ -1,8 +1,10 @@
 package ar.edu.mercadogratis.app.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Builder(toBuilder = true)
@@ -10,10 +12,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity
-public class MoneyAccount extends BaseEntity {
+@Document
+public class MoneyAccount {
 
-    @OneToOne
     private User user;
 
     private BigDecimal balance;

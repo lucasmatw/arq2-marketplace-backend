@@ -1,12 +1,13 @@
 package ar.edu.mercadogratis.app.service;
 
 import ar.edu.mercadogratis.app.dao.MoneyAccountRepository;
+import ar.edu.mercadogratis.app.exceptions.ValidationException;
 import ar.edu.mercadogratis.app.model.MoneyAccount;
 import ar.edu.mercadogratis.app.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
-import javax.validation.ValidationException;
 import java.math.BigDecimal;
 
 @RequiredArgsConstructor
@@ -15,13 +16,12 @@ public class MoneyAccountService {
 
     private final MoneyAccountRepository moneyAccountRepository;
 
-    public BigDecimal getFunds(User user) {
+    public Mono<BigDecimal> getFunds(User user) {
         return moneyAccountRepository.getByUser(user)
-                .map(MoneyAccount::getBalance)
-                .orElseThrow(() -> new ValidationException("Money account not found for user: " + user.getEmail()));
+                .map(MoneyAccount::getBalance);
     }
 
-    public MoneyAccount registerAccount(User user) {
+    public Mono<MoneyAccount> registerAccount(User user) {
         MoneyAccount account = MoneyAccount.builder()
                 .balance(BigDecimal.ZERO)
                 .user(user)
@@ -30,27 +30,30 @@ public class MoneyAccountService {
         return moneyAccountRepository.save(account);
     }
 
-    public BigDecimal debitAmount(User user, BigDecimal amount) {
-        MoneyAccount moneyAccount = moneyAccountRepository.getByUser(user)
-                .orElseThrow(() -> new ValidationException("Account not found for user"));
-
-        if(moneyAccount.getBalance().compareTo(amount) < 0) {
-            throw new ValidationException("No funds available");
-        }
-
-        moneyAccount.subtractFromBalance(amount);
-        moneyAccountRepository.save(moneyAccount);
-
-        return moneyAccount.getBalance();
+    public Mono<BigDecimal> debitAmount(User user, BigDecimal amount) {
+        return moneyAccountRepository.getByUser(user)
+                .flatMap(account -> {
+                    if (insufficientFunds(account, amount)) {
+                        return Mono.error(new ValidationException("insufficient_funds", "No funds available"));
+                    }
+                    return Mono.just(account);
+                }).flatMap(moneyAccount -> {
+                    moneyAccount.subtractFromBalance(amount);
+                    return moneyAccountRepository.save(moneyAccount);
+                }).map(MoneyAccount::getBalance);
     }
 
-    public BigDecimal creditAmount(User user, BigDecimal amount) {
-        MoneyAccount moneyAccount = moneyAccountRepository.getByUser(user)
-                .orElseThrow(() -> new ValidationException("Account not found for user"));
+    private boolean insufficientFunds(MoneyAccount moneyAccount, BigDecimal amount) {
+        return moneyAccount.getBalance().compareTo(amount) < 0;
+    }
 
-        moneyAccount.addToBalance(amount);
-        moneyAccountRepository.save(moneyAccount);
-
-        return moneyAccount.getBalance();
+    public Mono<BigDecimal> creditAmount(User user, BigDecimal amount) {
+        return moneyAccountRepository.getByUser(user)
+                .flatMap(account -> {
+                    account.addToBalance(amount);
+                    return Mono.just(account);
+                })
+                .doOnNext(moneyAccountRepository::save)
+                .map(MoneyAccount::getBalance);
     }
 }

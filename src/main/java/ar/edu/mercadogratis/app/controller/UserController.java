@@ -1,16 +1,14 @@
 package ar.edu.mercadogratis.app.controller;
 
+import ar.edu.mercadogratis.app.exceptions.ValidationException;
 import ar.edu.mercadogratis.app.model.User;
 import ar.edu.mercadogratis.app.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import reactor.core.publisher.Mono;
 
 
 @Controller
@@ -20,42 +18,20 @@ public class UserController {
     private final UserService userService;
 
     @RequestMapping(value = "/user/register", method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<Long> addUser(@RequestBody User user) {
-        User userLogin = userService.getUserForMail(user.getEmail());
-        Long userId;
-        if (userLogin == null) {
-            userId = userService.addUser(user);
-        } else {
-            userId = userLogin.getId();
-        }
-        return ResponseEntity.ok(userId);
+    public Mono<Long> registerUser(@RequestBody User user) {
+        return userService.getUserForMail(user.getEmail())
+                .map(User::getId)
+                .switchIfEmpty(userService.createUser(user));
     }
 
     @RequestMapping(value = "/user/login", method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity login(@RequestBody User user) {
-        User userLogin = userService.getUserForMail(user.getEmail());
-        if (userLogin != null && user.getPassword().equals(userLogin.getPassword())) {
-            return ResponseEntity.ok().body(userLogin.getId());
-        }
-        return ResponseEntity.badRequest()
-                .body("Invalid user or password");
+    public Mono<User> login(@RequestBody User loginUser) {
+        return userService.getUserForMail(loginUser.getEmail())
+                .flatMap(existingUser -> getAuthUser(existingUser, loginUser));
     }
 
-    @RequestMapping(value = "/user/forgetPassword", method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<String> forgetPassword(@RequestBody User user) {
-        userService.forgetPassword(user.getEmail());
-        return ResponseEntity.ok("success");
-    }
-
-    @RequestMapping(value = "/user/changePassword", method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity changePassword(@RequestBody String stringJson) {
-        Long idUser;
-        try {
-            JSONObject userWithNewPassword = new JSONObject(stringJson);
-            idUser = userService.changePassword(userWithNewPassword);
-        } catch (RuntimeException | JSONException err) {
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
-        }
-        return ResponseEntity.ok().body(idUser);
+    private Mono<User> getAuthUser(User existingUser, User loginUser) {
+        return existingUser.getPassword().equals(loginUser.getPassword()) ?
+                Mono.just(existingUser) : Mono.error(new ValidationException("invalid_user", "Invalid user or password"));
     }
 }

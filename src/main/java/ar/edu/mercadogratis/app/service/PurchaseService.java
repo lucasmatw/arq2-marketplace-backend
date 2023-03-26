@@ -1,11 +1,14 @@
 package ar.edu.mercadogratis.app.service;
 
 import ar.edu.mercadogratis.app.dao.PurchaseProductRepository;
+import ar.edu.mercadogratis.app.exceptions.ValidationException;
 import ar.edu.mercadogratis.app.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import javax.validation.ValidationException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Service
@@ -19,45 +22,55 @@ public class PurchaseService {
     private final MoneyAccountService moneyAccountService;
 
 
-    public Iterable<PurchaseProduct> listPurchases(String buyerEmail) {
-        User buyer = userService.getUserForMail(buyerEmail);
-        return purchaseProductRepository.findByBuyer(buyer);
+    public Flux<PurchaseProduct> listPurchases(String buyerEmail) {
+        return getUser(buyerEmail)
+                .flatMapMany(purchaseProductRepository::findByBuyer);
     }
 
-    public PurchaseProduct createPurchase(PurchaseRequest purchaseRequest) {
-
-        PurchaseProduct purchaseProduct = productService.getProduct(purchaseRequest.getProductId())
+    public Mono<PurchaseProduct> createPurchase(PurchaseRequest purchaseRequest) {
+        return productService.getProduct(purchaseRequest.getProductId())
                 .map(product -> takeStock(product, purchaseRequest.getQuantity()))
-                .map(product -> createPurchase(purchaseRequest, product))
-                .map(this::registerTransaction)
-                .orElseThrow(() -> new ValidationException("Invalid product"));
+                .flatMap(product -> createPurchase(purchaseRequest, product))
+                .flatMap(this::registerTransaction)
+                .flatMap(this::savePurchase);
 
+    }
+
+    private Mono<PurchaseProduct> savePurchase(PurchaseProduct purchaseProduct){
         return purchaseProductRepository.save(purchaseProduct);
     }
 
-    private PurchaseProduct registerTransaction(PurchaseProduct purchase) {
+    private Mono<PurchaseProduct> registerTransaction(PurchaseProduct purchase) {
         User buyer = purchase.getBuyer();
-        User seller = userService.getUserForMail(purchase.getProduct().getSeller());
+        User seller = purchase.getProduct().getSeller();
 
-        moneyAccountService.creditAmount(seller, purchase.getPrice());
-        moneyAccountService.debitAmount(buyer, purchase.getPrice());
+        Mono<BigDecimal> creditAction = moneyAccountService.creditAmount(seller, purchase.getPrice());
+        Mono<BigDecimal> debitAction = moneyAccountService.debitAmount(buyer, purchase.getPrice());
 
-        return purchase;
+        return Mono.zip(creditAction, debitAction)
+                .map(zip -> purchase);
     }
 
-    private PurchaseProduct createPurchase(PurchaseRequest purchaseRequest, Product product) {
-        User user = userService.getUserForMail(purchaseRequest.getBuyerEmail());
-        LocalDateTime creationDate = dateService.getNowDate();
-        return new PurchaseProduct(product, user, creationDate, purchaseRequest.getQuantity(), PurchaseStatus.CONFIRMED);
+    private Mono<PurchaseProduct> createPurchase(PurchaseRequest purchaseRequest, Product product) {
+        return getUser(purchaseRequest.getBuyerEmail())
+                .map(user -> {
+                    LocalDateTime creationDate = dateService.getNowDate();
+                    return new PurchaseProduct(product, user, creationDate, purchaseRequest.getQuantity(), PurchaseStatus.CONFIRMED);
+                });
+
     }
 
     private Product takeStock(Product product, int quantity) {
         if (product.getStock() < quantity) {
-            throw new ValidationException("No stock available");
+            throw new ValidationException("insufficient_stock", "No stock available");
         }
 
         product.setStock(product.getStock() - quantity);
         productService.updateProduct(product);
         return product;
+    }
+
+    private Mono<User> getUser(String email) {
+        return userService.getUserForMail(email);
     }
 }

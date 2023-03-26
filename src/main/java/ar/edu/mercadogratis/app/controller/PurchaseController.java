@@ -4,11 +4,11 @@ package ar.edu.mercadogratis.app.controller;
 import ar.edu.mercadogratis.app.model.PurchaseProduct;
 import ar.edu.mercadogratis.app.model.PurchaseRequest;
 import ar.edu.mercadogratis.app.service.PurchaseService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/purchase")
@@ -18,13 +18,12 @@ public class PurchaseController {
     private final PurchaseService purchaseService;
 
     @PostMapping
-    public ResponseEntity<PurchaseProduct> createPurchase(@Valid @RequestBody PurchaseRequest purchaseRequest) {
-        PurchaseProduct purchase = purchaseService.createPurchase(purchaseRequest);
-        return ResponseEntity.ok(purchase);
+    public Mono<PurchaseProduct> createPurchase(@Valid @RequestBody PurchaseRequest purchaseRequest) {
+        return purchaseService.createPurchase(purchaseRequest);
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<PurchaseProduct>> listPurchases(@RequestParam String buyerEmail) {
-        return ResponseEntity.ok(purchaseService.listPurchases(buyerEmail));
+    public Flux<PurchaseProduct> listPurchases(@RequestParam String buyerEmail) {
+        return purchaseService.listPurchases(buyerEmail);
     }
 }

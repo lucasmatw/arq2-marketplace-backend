@@ -25,16 +25,13 @@ public class UserServiceTest {
     private UserRepository userRepository;
     @MockBean
     private EmailService emailService;
-    @MockBean
-    private PasswordGeneratorService passwordGeneratorService;
 
     @TestConfiguration
     static class TestContextConfiguration {
         @Bean
-        public UserService userService(UserRepository userRepository, EmailService emailService,
-                                       PasswordGeneratorService passwordGeneratorService,
+        public UserService userService(UserRepository userRepository,
                                        MoneyAccountService moneyAccountService) {
-            return new UserService(userRepository, emailService, passwordGeneratorService, moneyAccountService);
+            return new UserService(userRepository, moneyAccountService);
         }
     }
 
@@ -47,23 +44,23 @@ public class UserServiceTest {
     @Test
     public void testAddUser() {
         String email = "validemail@mail.com";
+        String pwd = "123add";
+
         User user = User.builder()
                 .email(email)
+                .password(pwd)
                 .build();
 
-        String pwd = "123add";
-        when(passwordGeneratorService.generateRandom()).thenReturn(pwd);
 
         User savedUser = user.toBuilder().
                 build();
         savedUser.setId(1L);
         when(userRepository.save(eq(user))).thenReturn(savedUser);
 
-        Long userId = userService.addUser(user);
+        Long userId = userService.createUser(user);
 
         assertThat(userId).isEqualTo(1L);
         assertThat(user.getPassword()).isEqualTo(pwd);
-        verify(emailService).send(eq(email), anyString(), eq("Tu password es: " + pwd));
     }
 
     @Test
@@ -76,23 +73,5 @@ public class UserServiceTest {
         User result = userService.getUser(1L);
 
         assertThat(result).isEqualTo(user);
-    }
-
-    @Test
-    public void testForgetPassword() {
-
-        String email = "validemail@mail.com";
-        String pwd = "pwd";
-
-        User user = User.builder()
-                .email(email)
-                .password(pwd)
-                .build();
-
-        when(userRepository.searchUserByEmail(eq(email))).thenReturn(Optional.of(user));
-
-        userService.forgetPassword(email);
-
-        verify(emailService).send(eq(email), eq("Bienvenido a MercadoGratis"), eq("Tu password es: " + pwd));
     }
 }

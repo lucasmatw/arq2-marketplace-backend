@@ -8,9 +8,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
 import org.springframework.test.context.ActiveProfiles;
+import reactor.core.publisher.Mono;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -32,7 +35,7 @@ public class UserControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void testRegisterUser() throws JsonProcessingException {
+    void testRegisterUser() {
 
         // given
         HttpHeaders headers = new HttpHeaders();
@@ -46,8 +49,8 @@ public class UserControllerTest {
                 .cuit("22332233")
                 .build();
         
-        HttpEntity<String> request =
-                new HttpEntity<>(objectMapper.writeValueAsString(user), headers);
+        HttpEntity<User> request =
+                new HttpEntity<>(user, headers);
 
         // when
         ResponseEntity<Long> response = restTemplate.postForEntity(url, request, Long.class);
@@ -56,12 +59,12 @@ public class UserControllerTest {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
 
-        User createdUser = userService.getUser(response.getBody());
+        User createdUser = userService.getUser(response.getBody()).block();
         assertThat(createdUser).isNotNull();
     }
 
     @Test
-    void testLoginUser() throws JsonProcessingException {
+    void testLoginUser() {
 
         // given
         HttpHeaders headers = new HttpHeaders();
@@ -76,14 +79,14 @@ public class UserControllerTest {
                 .password("12345")
                 .build();
 
-        userService.addUser(user);
-        User savedUser = userService.getUserForMail("an_email@mail.com");
+        userService.createUser(user);
+        Mono<User> savedUser = userService.getUserForMail("an_email@mail.com");
 
-        HttpEntity<String> request =
-                new HttpEntity<>(objectMapper.writeValueAsString(savedUser), headers);
+        HttpEntity<User> request =
+                new HttpEntity<>(savedUser.block(), headers);
 
         // when
-        ResponseEntity<Long> response = restTemplate.postForEntity(url, request, Long.class);
+        ResponseEntity<User> response = restTemplate.postForEntity(url, request, User.class);
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);

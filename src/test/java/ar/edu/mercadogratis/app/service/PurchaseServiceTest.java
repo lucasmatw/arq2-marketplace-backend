@@ -55,23 +55,29 @@ public class PurchaseServiceTest {
     @Test
     public void testCreatePurchase() {
 
+        String email = "mail";
         PurchaseRequest purchaseRequest = PurchaseRequest.builder()
                 .productId(1L)
-                .buyerEmail("mail")
+                .buyerEmail(email)
                 .quantity(3)
                 .build();
 
         User user = mock(User.class);
+        when(user.getEmail()).thenReturn(email);
 
+        String sellerMail = "seller@mail.com";
+        User sellerUser = mock(User.class);
         Product product = Product.builder()
                 .stock(3)
+                .seller(sellerMail)
                 .build();
 
         LocalDateTime today = LocalDateTime.of(2021, 10, 10, 5, 5, 5);
 
         when(productService.getProduct(eq(1L))).thenReturn(Optional.of(product));
         when(dateService.getNowDate()).thenReturn(today);
-        when(userService.getUserForMail(eq("mail"))).thenReturn(user);
+        when(userService.getUserForMail(eq(email))).thenReturn(Optional.of(user));
+        when(userService.getUserForMail(eq(sellerMail))).thenReturn(Optional.of(sellerUser));
 
         PurchaseProduct expected = PurchaseProduct.builder()
                 .buyer(user)
