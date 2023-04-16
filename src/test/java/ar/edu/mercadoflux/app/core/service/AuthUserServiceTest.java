@@ -34,6 +34,7 @@ class AuthUserServiceTest {
 
         User userMock = mock(User.class);
         when(userMock.getPassword()).thenReturn(userPwd);
+        when(userMock.isActive()).thenReturn(true);
 
         when(userService.getUserForMail(userMail)).thenReturn(Mono.just(userMock));
 
@@ -54,7 +55,29 @@ class AuthUserServiceTest {
         AuthUser authUser = new AuthUser(userMail, loginPwd);
 
         User userMock = mock(User.class);
+        when(userMock.isActive()).thenReturn(true);
         when(userMock.getPassword()).thenReturn("pwd");
+
+        when(userService.getUserForMail(userMail)).thenReturn(Mono.just(userMock));
+
+        // when
+        Mono<User> login = authUserService.login(authUser);
+
+        // then
+        assertThatThrownBy(login::block).isInstanceOf(InvalidUserOrPasswordException.class);
+    }
+
+    @Test
+    @DisplayName("should return empty Mono when user is deleted")
+    void testLoginDeletedUser() {
+        // given
+        String userMail = "user@mail";
+        String loginPwd = "incorrect pwd";
+
+        AuthUser authUser = new AuthUser(userMail, loginPwd);
+
+        User userMock = mock(User.class);
+        when(userMock.isActive()).thenReturn(false);
 
         when(userService.getUserForMail(userMail)).thenReturn(Mono.just(userMock));
 

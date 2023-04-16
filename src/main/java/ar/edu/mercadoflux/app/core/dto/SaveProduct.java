@@ -2,6 +2,7 @@ package ar.edu.mercadoflux.app.core.dto;
 
 import ar.edu.mercadoflux.app.core.domain.ProductCategory;
 import ar.edu.mercadoflux.app.core.domain.User;
+import ar.edu.mercadoflux.app.core.domain.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,4 +21,8 @@ public class SaveProduct {
     private BigDecimal price;
     private int stock;
     private User seller;
+
+    public boolean isSellerUser() {
+        return seller.getType() == UserType.SELLER;
+    }
 }
