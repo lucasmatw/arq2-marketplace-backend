@@ -1,5 +1,6 @@
 package ar.edu.mercadoflux.app.ports.output.persistence.entities;
 
+import ar.edu.mercadoflux.app.core.domain.ProductReference;
 import ar.edu.mercadoflux.app.core.domain.PurchaseStatus;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 public class PurchaseDocument {
     @MongoId
     private String id;
-    private String productId;
+    private ProductReference productReference;
     private String buyerId;
     private LocalDateTime creationDate;
     private int quantity;

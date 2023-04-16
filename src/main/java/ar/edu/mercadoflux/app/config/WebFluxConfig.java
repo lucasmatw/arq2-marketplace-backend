@@ -4,16 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
 import org.springframework.http.codec.json.Jackson2JsonEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.reactive.config.CorsRegistry;
 import org.springframework.web.reactive.config.EnableWebFlux;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
-import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.adapter.WebHttpHandlerBuilder;
 
 @Configuration
 @EnableWebFlux
@@ -22,13 +22,28 @@ public class WebFluxConfig implements WebFluxConfigurer {
 
     private final ObjectMapper objectMapper;
 
-//    @Bean
-//    public CorsWebFilter corsWebFilter() {
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
-//        source.registerCorsConfiguration("/**", config);
-//        return new CorsWebFilter(source);
-//    }
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry
+                .addMapping("/hello/**")
+                .allowedOrigins("http://localhost:8080")
+                .allowedMethods(HttpMethod.GET.name())
+                .allowCredentials(true);
+    }
+
+    @Bean
+    public CorsWebFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:8080");
+        config.addAllowedMethod(HttpMethod.GET.name());
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/hello/**", config);
+
+        return new CorsWebFilter(source);
+    }
 
     public void configureHttpMessageCodecs(ServerCodecConfigurer configurer) {
         configurer.defaultCodecs().jackson2JsonEncoder(

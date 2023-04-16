@@ -1,6 +1,6 @@
 package ar.edu.mercadoflux.app.ports.output.persistence.adapter;
 
-import ar.edu.mercadoflux.app.core.domain.Product;
+import ar.edu.mercadoflux.app.core.domain.ProductReference;
 import ar.edu.mercadoflux.app.core.domain.Purchase;
 import ar.edu.mercadoflux.app.core.domain.User;
 import ar.edu.mercadoflux.app.core.repository.PurchaseRepository;
@@ -25,24 +25,26 @@ public class PurchaseRepositoryMongoAdapter implements PurchaseRepository {
     @Override
     public Mono<Purchase> save(Purchase purchase) {
         return purchaseRepository.save(toPurchaseDocument(purchase))
-                .map(pd -> toPurchase(pd, purchase.getProduct(), purchase.getBuyer()));
+                .map(pd -> toPurchase(pd, purchase.getProductReference(), purchase.getBuyer(), purchase.getSeller()));
     }
 
     private PurchaseDocument toPurchaseDocument(Purchase purchase) {
         return PurchaseDocument.builder()
                 .id(purchase.getId())
-                .productId(purchase.getProduct().getId())
+                .productReference(purchase.getProductReference())
                 .buyerId(purchase.getBuyer().getId())
                 .creationDate(purchase.getCreationDate())
                 .quantity(purchase.getQuantity())
                 .status(purchase.getStatus())
                 .build();
     }
-    private Purchase toPurchase(PurchaseDocument purchaseDocument, Product product, User buyer) {
+
+    private Purchase toPurchase(PurchaseDocument purchaseDocument, ProductReference productReference, User buyer, User seller) {
         return Purchase.builder()
                 .id(purchaseDocument.getId())
-                .product(product)
+                .productReference(productReference)
                 .buyer(buyer)
+                .seller(seller)
                 .creationDate(purchaseDocument.getCreationDate())
                 .quantity(purchaseDocument.getQuantity())
                 .status(purchaseDocument.getStatus())

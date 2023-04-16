@@ -4,6 +4,7 @@ import ar.edu.mercadoflux.app.core.domain.ProductStatus;
 import ar.edu.mercadoflux.app.core.domain.User;
 import ar.edu.mercadoflux.app.core.dto.SaveProduct;
 import ar.edu.mercadoflux.app.core.dto.UpdateProduct;
+import ar.edu.mercadoflux.app.core.exception.InvalidProductException;
 import ar.edu.mercadoflux.app.core.exception.NotSellerUserException;
 import ar.edu.mercadoflux.app.core.exception.ProductNotFoundException;
 import ar.edu.mercadoflux.app.core.exception.UserNotFoundException;
@@ -22,6 +23,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Objects;
 
 import static ar.edu.mercadoflux.app.core.domain.UserType.SELLER;
 
@@ -69,6 +71,9 @@ public class ProductService implements GetProductUseCase, SaveProductUseCase,
 
 
     private void validateIsSellerUser(SaveProduct saveProduct) {
+        if (Objects.isNull(saveProduct.getSeller())) {
+            throw new InvalidProductException("Seller is required");
+        }
         if (!saveProduct.getSeller().getType().equals(SELLER)) {
             throw new NotSellerUserException();
         }

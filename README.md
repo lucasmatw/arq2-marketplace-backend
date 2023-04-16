@@ -10,18 +10,22 @@
 
 ### Ejecución
 
-#### Set up
-
-Setear variables de entorno `MONGO_ATLAS_DB_PASSWORD` y `MONGO_ATLAS_DB_USER` con los valores correspondientes.
-
 #### Local con Docker
 
-Generar el jar:
-- `mvn install` 
+Se necesita tener `mvn` y `docker-compose` instalados.
 
-Generar la imagen de Docker:
-- `docker build -t mercadoflux-api:spring-docker` 
+Generar el jar:
+- `mvn package -DskipTests`
+
+Levantar docker-compose (levanta la app y la DB):
+- `docker-compose up --build`
 
 Levantarla:
 - `docker run -e MONGO_ATLAS_DB_PASSWORD=$MONGO_ATLAS_DB_PASSWORD -e MONGO_ATLAS_DB_USER=$MONGO_ATLAS_DB_USER -p 8080:8080 mercadoflux-api:spring-docker`
+
+
+#### Local con Mongo Atlas
+
+Setear variables de entorno `MONGO_ATLAS_DB_PASSWORD` y `MONGO_ATLAS_DB_USER` con los valores correspondientes.
+
 

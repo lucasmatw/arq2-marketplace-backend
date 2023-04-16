@@ -1,6 +1,7 @@
 package ar.edu.mercadoflux.app.core.dto;
 
 import ar.edu.mercadoflux.app.core.domain.ProductCategory;
+import ar.edu.mercadoflux.app.core.domain.SellerInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,12 +20,4 @@ public class ProductSearchResult {
     private BigDecimal price;
     private int stock;
     private SellerInfo sellerInfo;
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class SellerInfo {
-        private String id;
-        private String name;
-    }
 }

@@ -13,17 +13,14 @@ import java.time.LocalDateTime;
 public class Purchase {
 
     private String id;
-    private Product product;
-
+    private ProductReference productReference;
     private User buyer;
-
+    private User seller;
     private LocalDateTime creationDate;
-
     private int quantity;
-
     private PurchaseStatus status;
 
     public BigDecimal getPrice() {
-        return product.getPrice().multiply(BigDecimal.valueOf(quantity));
+        return productReference.getPrice().multiply(BigDecimal.valueOf(quantity));
     }
 }

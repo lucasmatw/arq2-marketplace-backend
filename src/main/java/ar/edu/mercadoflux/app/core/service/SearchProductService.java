@@ -1,6 +1,7 @@
 package ar.edu.mercadoflux.app.core.service;
 
 import ar.edu.mercadoflux.app.core.domain.Product;
+import ar.edu.mercadoflux.app.core.domain.SellerInfo;
 import ar.edu.mercadoflux.app.core.dto.ProductSearchResult;
 import ar.edu.mercadoflux.app.core.dto.SearchProduct;
 import ar.edu.mercadoflux.app.core.repository.ProductRepository;
@@ -29,7 +30,7 @@ public class SearchProductService implements SearchProductUseCase {
                 product.getCategory(),
                 product.getPrice(),
                 product.getStock(),
-                new ProductSearchResult.SellerInfo(
+                new SellerInfo(
                         product.getSeller().getId(),
                         product.getSeller().getName()
                 )
