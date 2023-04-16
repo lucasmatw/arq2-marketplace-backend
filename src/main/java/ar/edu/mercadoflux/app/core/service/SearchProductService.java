@@ -4,6 +4,7 @@ import ar.edu.mercadoflux.app.core.domain.Product;
 import ar.edu.mercadoflux.app.core.domain.SellerInfo;
 import ar.edu.mercadoflux.app.core.dto.ProductSearchResult;
 import ar.edu.mercadoflux.app.core.dto.SearchProduct;
+import ar.edu.mercadoflux.app.core.dto.SearchProductInternal;
 import ar.edu.mercadoflux.app.core.repository.ProductRepository;
 import ar.edu.mercadoflux.app.core.usecase.product.SearchProductUseCase;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class SearchProductService implements SearchProductUseCase {
 
     @Override
     public Flux<ProductSearchResult> search(SearchProduct searchProduct) {
-        return productRepository.search(searchProduct)
+        return productRepository.search(SearchProductInternal.of(searchProduct))
                 .map(this::toProductSearchResult);
     }
 

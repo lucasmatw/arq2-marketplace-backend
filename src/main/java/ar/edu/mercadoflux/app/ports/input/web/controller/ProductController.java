@@ -38,10 +38,10 @@ public class ProductController {
     }
 
     @DeleteMapping("/{productId}")
-    public Mono<String> deleteProduct(@PathVariable String productId) {
+    public Mono<SaveProductResponse> deleteProduct(@PathVariable String productId) {
         return getProductUseCase.getProduct(productId)
                 .flatMap(deleteProductUseCase::deleteProduct)
-                .flatMap(v -> Mono.just("ok"));
+                .map(productAdapter::toSaveProductResponse);
     }
 
     @PostMapping

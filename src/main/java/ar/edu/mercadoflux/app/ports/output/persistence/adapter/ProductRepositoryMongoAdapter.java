@@ -2,6 +2,7 @@ package ar.edu.mercadoflux.app.ports.output.persistence.adapter;
 
 import ar.edu.mercadoflux.app.core.domain.Product;
 import ar.edu.mercadoflux.app.core.dto.SearchProduct;
+import ar.edu.mercadoflux.app.core.dto.SearchProductInternal;
 import ar.edu.mercadoflux.app.core.repository.ProductRepository;
 import ar.edu.mercadoflux.app.core.repository.UserRepository;
 import ar.edu.mercadoflux.app.ports.output.persistence.entities.ProductDocument;
@@ -24,6 +25,7 @@ public class ProductRepositoryMongoAdapter implements ProductRepository {
     private final static String NAME_FIELD = "name";
     private final static String CATEGORY_FIELD = "category";
     private final static String PRICE_FIELD = "price";
+    private final static String STATUS_FIELD = "status";
 
     private final ReactiveMongoTemplate mongoTemplate;
     private final ReactiveProductRepository productRepository;
@@ -52,20 +54,16 @@ public class ProductRepositoryMongoAdapter implements ProductRepository {
     }
 
     @Override
-    public Mono<Void> delete(Product product) {
-        return productRepository.deleteById(product.getId());
-    }
-
-    @Override
-    public Flux<Product> search(SearchProduct searchProduct) {
+    public Flux<Product> search(SearchProductInternal searchProduct) {
         Query searchQuery = Query.query(buildCriteria(searchProduct));
         Flux<ProductDocument> productDocumentFlux = mongoTemplate.find(searchQuery, ProductDocument.class);
         return productDocumentFlux.flatMap(productDocument -> userRepository.findById(productDocument.getSellerId())
                 .map(productDocument::toProduct));
     }
 
-    private Criteria buildCriteria(SearchProduct searchProduct) {
+    private Criteria buildCriteria(SearchProductInternal searchProductInternal) {
         Criteria criteria = new Criteria();
+        SearchProduct searchProduct = searchProductInternal.getSearchProduct();
 
         Optional<Criteria> nameCriteria = searchProduct.getName()
                 .map(name -> Criteria.where(NAME_FIELD).regex(name, "i"));
@@ -75,8 +73,10 @@ public class ProductRepositoryMongoAdapter implements ProductRepository {
                 .map(minPrice -> Criteria.where(PRICE_FIELD).gte(minPrice));
         Optional<Criteria> maxPriceCriteria = searchProduct.getMaxPrice()
                 .map(maxPrice -> Criteria.where(PRICE_FIELD).lte(maxPrice));
+        Optional<Criteria> statusCriteria = Optional.of(Criteria.where(STATUS_FIELD).regex(searchProductInternal.getStatus().name()));
 
-        Stream<Optional<Criteria>> criterias = Stream.of(nameCriteria, categoryCriteria, maxPriceCriteria, minPriceCriteria);
+        Stream<Optional<Criteria>> criterias = Stream.of(nameCriteria, categoryCriteria,
+                maxPriceCriteria, minPriceCriteria, statusCriteria);
 
         return criteria.andOperator(criterias.filter(Optional::isPresent)
                 .map(Optional::get)

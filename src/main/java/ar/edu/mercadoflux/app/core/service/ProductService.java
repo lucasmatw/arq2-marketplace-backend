@@ -37,8 +37,9 @@ public class ProductService implements GetProductUseCase, SaveProductUseCase,
 
 
     @Override
-    public Mono<Void> deleteProduct(Product product) {
-        return productRepository.delete(product);
+    public Mono<Product> deleteProduct(Product product) {
+        product.setDeleted();
+        return productRepository.save(product);
     }
 
     @Override

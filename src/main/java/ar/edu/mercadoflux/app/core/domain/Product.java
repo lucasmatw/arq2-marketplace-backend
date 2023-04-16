@@ -24,16 +24,16 @@ public class Product {
     private ProductStatus status;
 
     public Product takeStock(int quantity) {
-        // validate stock
         validateStock(quantity);
         return this.toBuilder().stock(this.stock - quantity).build();
     }
 
-    // validation method to check if stock is enough, if not throw NoStockException
     public void validateStock(int quantity) {
         if (this.stock < quantity) {
             throw new NoStockException(getId());
         }
     }
-
+    public void setDeleted() {
+        this.status = ProductStatus.DELETED;
+    }
 }

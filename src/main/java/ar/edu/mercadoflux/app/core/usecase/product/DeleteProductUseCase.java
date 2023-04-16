@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 import reactor.core.publisher.Mono;
 
 public interface DeleteProductUseCase {
-    Mono<Void> deleteProduct(Product product);
+    Mono<Product> deleteProduct(Product product);
 }
