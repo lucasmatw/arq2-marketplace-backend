@@ -1,6 +1,7 @@
 package ar.edu.mercadoflux.app.ports.output.persistence.entities;
 
 import ar.edu.mercadoflux.app.core.domain.User;
+import ar.edu.mercadoflux.app.core.domain.UserStatus;
 import ar.edu.mercadoflux.app.core.domain.UserType;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class UserDocument {
     private String password;
     private String cuit;
     private UserType userType;
+    private UserStatus status;
 
     public User toUser() {
         return User.builder()
@@ -31,6 +33,7 @@ public class UserDocument {
                 .password(password)
                 .cuit(cuit)
                 .type(userType)
+                .status(status)
                 .build();
     }
     public static UserDocument fromUser(User user) {
@@ -42,6 +45,7 @@ public class UserDocument {
                 .password(user.getPassword())
                 .cuit(user.getCuit())
                 .userType(user.getType())
+                .status(user.getStatus())
                 .build();
     }
 }

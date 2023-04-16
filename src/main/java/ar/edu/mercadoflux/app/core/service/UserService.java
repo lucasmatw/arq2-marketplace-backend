@@ -1,12 +1,15 @@
 package ar.edu.mercadoflux.app.core.service;
 
 import ar.edu.mercadoflux.app.core.domain.MoneyAccount;
+import ar.edu.mercadoflux.app.core.domain.UserStatus;
 import ar.edu.mercadoflux.app.core.domain.UserType;
+import ar.edu.mercadoflux.app.core.dto.DeleteUserRequest;
 import ar.edu.mercadoflux.app.core.exception.UserAlreadyExistsException;
 import ar.edu.mercadoflux.app.core.exception.UserNotFoundException;
 import ar.edu.mercadoflux.app.core.repository.UserRepository;
 import ar.edu.mercadoflux.app.core.domain.User;
 import ar.edu.mercadoflux.app.core.dto.RegisterUser;
+import ar.edu.mercadoflux.app.core.usecase.user.DeleteUserUseCase;
 import ar.edu.mercadoflux.app.ports.input.web.dto.UpdateUserRequest;
 import ar.edu.mercadoflux.app.core.usecase.user.GetUserUseCase;
 import ar.edu.mercadoflux.app.core.usecase.user.RegisterUserUseCase;
@@ -17,6 +20,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.function.Function;
 
+import static ar.edu.mercadoflux.app.core.domain.UserStatus.ACTIVE;
 import static ar.edu.mercadoflux.app.core.domain.UserType.CUSTOMER;
 import static ar.edu.mercadoflux.app.core.domain.UserType.SELLER;
 
@@ -48,16 +52,6 @@ public class UserService implements RegisterUserUseCase, GetUserUseCase, UpdateU
                 .switchIfEmpty(register(registerUser, SELLER));
     }
 
-    private Mono<User> handleExistingUser(RegisterUser registerUser) {
-        return userRepository.findByEmail(registerUser.getEmail())
-                .hasElement()
-                .filter(exists -> exists)
-                .flatMap(rejectExistingUser());
-    }
-    private Function<Boolean, Mono<User>> rejectExistingUser() {
-        return exists -> exists ? Mono.error(new UserAlreadyExistsException()) : Mono.empty();
-    }
-
     public Mono<User> updateUser(UpdateUserRequest updateUserRequest) {
         return userRepository.findById(updateUserRequest.getId())
                 .map(user -> {
@@ -68,12 +62,26 @@ public class UserService implements RegisterUserUseCase, GetUserUseCase, UpdateU
                 }).doOnNext(userRepository::save);
     }
 
+    public Mono<User> deleteUser(User user) {
+        user.setDeleted();
+        return userRepository.save(user);
+    }
+
     private Mono<User> register(RegisterUser registerUser, UserType userType) {
         return userRepository.save(buildUser(registerUser, userType))
                 .flatMap(moneyAccountService::registerAccount)
                 .map(MoneyAccount::getUser);
     }
 
+    private Mono<User> handleExistingUser(RegisterUser registerUser) {
+        return userRepository.findByEmail(registerUser.getEmail())
+                .hasElement()
+                .filter(exists -> exists)
+                .flatMap(rejectExistingUser());
+    }
+    private Function<Boolean, Mono<User>> rejectExistingUser() {
+        return exists -> exists ? Mono.error(new UserAlreadyExistsException()) : Mono.empty();
+    }
     private User buildUser(RegisterUser registerUser, UserType userType) {
         return User.builder()
                 .name(registerUser.getName())
@@ -82,6 +90,7 @@ public class UserService implements RegisterUserUseCase, GetUserUseCase, UpdateU
                 .password(registerUser.getPassword())
                 .type(userType)
                 .cuit(registerUser.getCuit())
+                .status(ACTIVE)
                 .build();
     }
 }

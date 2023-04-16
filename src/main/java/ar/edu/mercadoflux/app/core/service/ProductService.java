@@ -18,6 +18,7 @@ import ar.edu.mercadoflux.app.ports.input.web.dto.SaveProductRequest;
 import ar.edu.mercadoflux.app.ports.input.web.dto.SaveProductResponse;
 import ar.edu.mercadoflux.app.ports.input.web.dto.SearchProductRequest;
 import lombok.RequiredArgsConstructor;
+import org.reactivestreams.Publisher;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -71,6 +72,11 @@ public class ProductService implements GetProductUseCase, SaveProductUseCase,
     }
 
 
+    public Flux<Product> deleteProductsByUser(User user) {
+        return productRepository.findBySeller(user.getId())
+                .flatMap(this::deleteProduct);
+    }
+
     private void validateIsSellerUser(SaveProduct saveProduct) {
         if (Objects.isNull(saveProduct.getSeller())) {
             throw new InvalidProductException("Seller is required");
@@ -91,4 +97,5 @@ public class ProductService implements GetProductUseCase, SaveProductUseCase,
                 .seller(saveProduct.getSeller())
                 .build();
     }
+
 }
