@@ -6,6 +6,8 @@ import ar.edu.mercadoflux.app.core.domain.ProductStatus;
 import ar.edu.mercadoflux.app.core.domain.User;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,6 +22,7 @@ public class ProductDocument {
     private String name;
     private String description;
     private ProductCategory category;
+    @Field(targetType = FieldType.DECIMAL128)
     private BigDecimal price;
     private int stock;
     private String sellerId;

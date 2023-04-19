@@ -50,6 +50,8 @@ DB --> PurchaseRepository : Mono<Purchase>
 PurchaseRepository --> PurchaseService : Mono<Purchase>
 
 PurchaseService --> PurchaseController : Mono<Purchase>
-PurchaseController --> client : Mono<Purchase>
+PurchaseController -> PurchaseAdapter : toPurchaseProductResponse
+PurchaseAdapter --> PurchaseController : PurchaseProductResponse
+PurchaseController --> client : Mono<PurchaseProductResponse>
 
 @enduml

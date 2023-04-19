@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequiredArgsConstructor
 public class PingController {
-    
+
     @GetMapping("/ping")
     public Mono<String> ping() {
         return Mono.just("pong");

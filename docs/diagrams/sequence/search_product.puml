@@ -22,8 +22,10 @@ note over client, ProductController
     params: name, category,
     min_price, max_price
 end note
-client -> ProductController: GET search request
 
+
+client -> ProductController: GET search request
+ProductController -> SearchProduct ** : create
 
 ProductController -> SearchProductService: search(SearchProduct)
 SearchProductService -> SearchProductInternal ** : create

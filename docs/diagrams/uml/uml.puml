@@ -122,8 +122,8 @@ package core {
 }
 
 class MoneyAccount {
-	-user: User
-	-balance: BigDecimal
+	+ user: User
+	+ balance: BigDecimal
 }
 
 class Product  {
@@ -141,9 +141,9 @@ enum ProductCategory  {
 }
 
 class Purchase {
-    + String id
-    + LocalDateTime creationDate
-    + int quantity
+    + id: String
+    + creationDate: LocalDateTime
+    + quantity: int
 }
 
 enum PurchaseStatus {
@@ -160,15 +160,15 @@ class User {
 }
 
 class ProductReference {
-    + String productReferenceId
-    + String name
-    + String description
-    + BigDecimal price
+    + productReferenceId: String
+    + name: String
+    + description: String
+    + price: BigDecimal
 }
 
 class SellerInfo {
-    + String id
-    + String name
+    + id: String
+    + name: String
 }
 
 Purchase *-- User : buyer >

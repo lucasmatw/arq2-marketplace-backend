@@ -73,6 +73,7 @@ public class ProductRepositoryMongoAdapter implements ProductRepository {
                 .map(minPrice -> Criteria.where(PRICE_FIELD).gte(minPrice));
         Optional<Criteria> maxPriceCriteria = searchProduct.getMaxPrice()
                 .map(maxPrice -> Criteria.where(PRICE_FIELD).lte(maxPrice));
+
         Optional<Criteria> statusCriteria = Optional.of(Criteria.where(STATUS_FIELD).regex(searchProductInternal.getStatus().name()));
 
         Stream<Optional<Criteria>> criterias = Stream.of(nameCriteria, categoryCriteria,
