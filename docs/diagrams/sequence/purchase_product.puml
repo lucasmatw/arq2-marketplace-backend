@@ -1,0 +1,55 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title Compra de un producto
+
+autonumber
+
+actor client
+
+box Application
+control PurchaseController
+participant PurchaseAdapter
+participant PurchaseService
+participant Product
+participant ProductService
+participant PurchaseRepository
+participant MoneyAccountService
+participant DateService
+
+end box
+
+box Database #FFAAAA
+database DB
+end box
+
+
+
+client -> PurchaseController: POST purchase
+
+PurchaseController -> PurchaseAdapter: toPurchaseProduct
+PurchaseAdapter -> PurchaseController: PurchaseProduct
+PurchaseController -> PurchaseService: purchase(PurchaseProduct)
+
+PurchaseService -> Product : takeStock(quantity)
+PurchaseService -> ProductService: updateProduct(Product)
+
+ProductService --> PurchaseService : Product
+PurchaseService -> PurchaseService : toPurchase
+PurchaseService -> DateService : getNowDate
+DateService -> PurchaseService : Date
+
+PurchaseService -> MoneyAccountService : creditAmount(seller, price)
+PurchaseService -> MoneyAccountService : debitAmount(buyer, price)
+MoneyAccountService --> PurchaseService : ok
+MoneyAccountService --> PurchaseService : ok
+
+PurchaseService -> PurchaseRepository :savePurchase
+PurchaseRepository -> DB : save
+DB --> PurchaseRepository : Mono<Purchase>
+PurchaseRepository --> PurchaseService : Mono<Purchase>
+
+PurchaseService --> PurchaseController : Mono<Purchase>
+PurchaseController --> client : Mono<Purchase>
+
+@enduml

@@ -1,0 +1,38 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title Busqueda de Productos
+
+autonumber
+
+actor client
+
+box Application
+control ProductController
+participant SearchProductService
+participant ProductRepository
+end box
+
+
+box Database #FFAAAA
+database DB
+end box
+
+note over client, ProductController
+    params: name, category,
+    min_price, max_price
+end note
+client -> ProductController: GET search request
+
+
+ProductController -> SearchProductService: search(SearchProduct)
+SearchProductService -> SearchProductInternal ** : create
+SearchProductService -> ProductRepository : search(SearchProductInternal)
+ProductRepository --> DB : find
+DB --> ProductRepository : Flux<Product>
+ProductRepository --> SearchProductService : Flux<Product>
+SearchProductService --> ProductSearchResult ** : create
+SearchProductService --> ProductController: Flux<ProductSearchResult>
+ProductController --> client: Flux<ProductSearchResult>
+
+@enduml

@@ -46,15 +46,15 @@ public class MoneyAccountService {
                 .switchIfEmpty(Mono.error(new MoneyAccountNotFoundException()));
     }
 
-    private boolean insufficientFunds(MoneyAccount moneyAccount, BigDecimal amount) {
-        return moneyAccount.getBalance().compareTo(amount) < 0;
-    }
-
     public Mono<BigDecimal> creditAmount(User user, BigDecimal amount) {
         return moneyAccountRepository.getByUser(user)
                 .map(account -> account.addToBalance(amount))
                 .flatMap(moneyAccountRepository::update)
                 .map(MoneyAccount::getBalance)
                 .switchIfEmpty(Mono.error(new MoneyAccountNotFoundException()));
+    }
+
+    private boolean insufficientFunds(MoneyAccount moneyAccount, BigDecimal amount) {
+        return moneyAccount.getBalance().compareTo(amount) < 0;
     }
 }

@@ -1,0 +1,656 @@
+{
+  "id" : 1,
+  "name" : "Name",
+  "description" : "Description",
+  "lastModifiedDate" : "2023-04-18T22:52:07Z",
+  "lastModifiedAgent" : "structurizr-javascript",
+  "properties" : {
+    "structurizr.dsl" : "d29ya3NwYWNlIHsKCiAgICBtb2RlbCB7CiAgICAgICAgdXNlciA9IHBlcnNvbiAiVXNlciIgIlVuIHVzdWFyaW8gZGUgTWVyY2Fkb2ZsdXguIiAiQ3VzdG9tZXIiCgogICAgICAgIGdyb3VwICJNZXJjYWRvZmx1eCBHcm91cCIgewogICAgICAgICAgICBtZXJjYWRvZmx1eCA9IHNvZnR3YXJlc3lzdGVtICJNZXJjYWRvZmx1eCIgIiIgewoKICAgICAgICAgICAgICAgIGZsdXhfYXBwID0gY29udGFpbmVyICJNZXJjYWRvZmx1eCBBcHAiICJSRVNUIEFQSSIgIlNwcmluZyBXZWJGbHV4IiAiSW50ZXJuYWwgU3lzdGVtIiB7CgogICAgICAgICAgICAgICAgICAgIGdyb3VwICJDb250cm9sbGVycyAoUHVlcnRvcyBkZSBlbnRyYWRhKSIgewogICAgICAgICAgICAgICAgICAgICAgICB1c2VyX2NvbnRyb2xsZXIgPSBjb21wb25lbnQgIlVzZXJDb250cm9sbGVyIiAiQ29udHJvbGxlciIgIlNwcmluZyBXZWJGbHV4IENvbnRyb2xsZXIiICJDb250cm9sbGVyIgogICAgICAgICAgICAgICAgICAgICAgICBwcm9kdWN0X2NvbnRyb2xsZXIgPSBjb21wb25lbnQgIlByb2R1Y3RDb250cm9sbGVyIiAiQ29udHJvbGxlciIgIlNwcmluZyBXZWJGbHV4IENvbnRyb2xsZXIiICJDb250cm9sbGVyIgogICAgICAgICAgICAgICAgICAgICAgICBwdXJjaGFzZV9jb250cm9sbGVyID0gY29tcG9uZW50ICJQdXJjaGFzZUNvbnRyb2xsZXIiICJDb250cm9sbGVyIiAiU3ByaW5nIFdlYkZsdXggQ29udHJvbGxlciIgIkNvbnRyb2xsZXIiCiAgICAgICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgICAgICBncm91cCAiU2VydmljZXMgKGltcGxlbWVudGFuIGxvcyBjYXNvcyBkZSB1c28pIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIHVzZXJfc2VydmljZSA9IGNvbXBvbmVudCAiVXNlclNlcnZpY2UiICJTZXJ2aWNlIiAiVXNlciBTZXJ2aWNlIiAiSW50ZXJuYWwgU3lzdGVtIgogICAgICAgICAgICAgICAgICAgICAgICBhdXRoX3VzZXJfc2VydmljZSA9IGNvbXBvbmVudCAiQXV0aFVzZXJTZXJ2aWNlIiAiU2VydmljZSIgIkF1dGggVXNlciBTZXJ2aWNlIiAiSW50ZXJuYWwgU3lzdGVtIgogICAgICAgICAgICAgICAgICAgICAgICBwcm9kdWN0X3NlcnZpY2UgPSBjb21wb25lbnQgIlByb2R1Y3RTZXJ2aWNlIiAiU2VydmljZSIgIlByb2R1Y3QgU2VydmljZSIgIkludGVybmFsIFN5c3RlbSIKICAgICAgICAgICAgICAgICAgICAgICAgcHVyY2hhc2Vfc2VydmljZSA9IGNvbXBvbmVudCAiUHVyY2hhc2VTZXJ2aWNlIiAiU2VydmljZSIgIlB1cmNoYXNlIFNlcnZpY2UiICJJbnRlcm5hbCBTeXN0ZW0iCiAgICAgICAgICAgICAgICAgICAgICAgIHNlYXJjaF9zZXJ2aWNlID0gY29tcG9uZW50ICJTZWFyY2hQcm9kdWN0U2VydmljZSIgIlNlcnZpY2UiICJTZWFyY2ggUHJvZHVjdCBTZXJ2aWNlIiAiSW50ZXJuYWwgU3lzdGVtIgogICAgICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICAgICAgZ3JvdXAgIlNlcnZpY2VzIChhdXhpbGlhcmVzKSIgewogICAgICAgICAgICAgICAgICAgICAgICBkYXRlX3NlcnZpY2UgPSBjb21wb25lbnQgIkRhdGVTZXJ2aWNlIiAiU2VydmljZSIgIkRhdGVzIFNlcnZpY2UiICJJbnRlcm5hbCBTeXN0ZW0iCiAgICAgICAgICAgICAgICAgICAgICAgIG1vbmV5X3NlcnZpY2UgPSBjb21wb25lbnQgIk1vbmV5QWNjb3VudFNlcnZpY2UiICJTZXJ2aWNlIiAiTW9uZXkgQWNjb3VudCBTZXJ2aWNlIiAiSW50ZXJuYWwgU3lzdGVtIgogICAgICAgICAgICAgICAgICAgIH0KCiAgICAgICAgICAgICAgICAgICAgZ3JvdXAgIlJlcG9zaXRvcmllcyAoUHVlcnRvcyBkZSBzYWxpZGEpIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIHVzZXJfcmVwb3NpdG9yeSA9IGNvbXBvbmVudCAiVXNlclJlcG9zaXRvcnkiICJSZXBvc2l0b3J5IiAiVXNlciBSZXBvc2l0b3J5IiAiUmVwb3NpdG9yeSIKICAgICAgICAgICAgICAgICAgICAgICAgcHJvZHVjdF9yZXBvc2l0b3J5ID0gY29tcG9uZW50ICJQcm9kdWN0UmVwb3NpdG9yeSIgIlJlcG9zaXRvcnkiICJQcm9kdWN0IFJlcG9zaXRvcnkiICJSZXBvc2l0b3J5IgogICAgICAgICAgICAgICAgICAgICAgICBwdXJjaGFzZV9yZXBvc2l0b3J5ID0gY29tcG9uZW50ICJQdXJjaGFzZVJlcG9zaXRvcnkiICJSZXBvc2l0b3J5IiAiUHVyY2hhc2UgUmVwb3NpdG9yeSIgIlJlcG9zaXRvcnkiCiAgICAgICAgICAgICAgICAgICAgICAgIG1vbmV5X3JlcG9zaXRvcnkgPSBjb21wb25lbnQgIk1vbmV5QWNjb3VudFJlcG9zaXRvcnkiICJSZXBvc2l0b3J5IiAiTW9uZXkgQWNjb3VudCBSZXBvc2l0b3J5IiAiUmVwb3NpdG9yeSIKICAgICAgICAgICAgICAgICAgICB9CgogICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgZGF0YWJhc2UgPSBjb250YWluZXIgIk1vbmdvIEF0bGFzIiAiTW9uZ29EQiBlbiBsYSBudWJlIiAiRGF0YWJhc2UiICJEYXRhYmFzZSIKCiAgICAgICAgICAgIH0KICAgICAgICB9CgogICAgICAgdXNlciAtPiBmbHV4X2FwcCAiVXNhIgogICAgICAgZmx1eF9hcHAgLT4gZGF0YWJhc2UgIkFsbWFjZW5hIGRhdG9zIGVuIgoKICAgICAgIHVzZXJfcmVwb3NpdG9yeSAtPiBkYXRhYmFzZSAiQWxtYWNlbmEgZGF0b3MgZW4iCgogICAgICAgdXNlcl9jb250cm9sbGVyIC0+IHVzZXJfc2VydmljZSAiVXNhIgogICAgICAgdXNlcl9jb250cm9sbGVyIC0+IGF1dGhfdXNlcl9zZXJ2aWNlICJVc2EiCiAgICAgICB1c2VyX3NlcnZpY2UgLT4gdXNlcl9yZXBvc2l0b3J5ICJVc2EiCiAgICAgICB1c2VyX3NlcnZpY2UgLT4gbW9uZXlfc2VydmljZSAiVXNhIgoKICAgICAgIGF1dGhfdXNlcl9zZXJ2aWNlIC0+IHVzZXJfc2VydmljZSAiVXNhIgogICAgICAgYXV0aF91c2VyX3NlcnZpY2UgLT4gcHJvZHVjdF9zZXJ2aWNlICJVc2EiCgogICAgICAgcHJvZHVjdF9jb250cm9sbGVyIC0+IHByb2R1Y3Rfc2VydmljZSAiVXNhIgogICAgICAgcHJvZHVjdF9jb250cm9sbGVyIC0+IHNlYXJjaF9zZXJ2aWNlICJVc2EiCiAgICAgICBwcm9kdWN0X3NlcnZpY2UgLT4gcHJvZHVjdF9yZXBvc2l0b3J5ICJVc2EiCiAgICAgICBwcm9kdWN0X3JlcG9zaXRvcnkgLT4gZGF0YWJhc2UgIkFsbWFjZW5hIGRhdG9zIGVuIgoKICAgICAgIHB1cmNoYXNlX2NvbnRyb2xsZXIgLT4gcHVyY2hhc2Vfc2VydmljZSAiVXNhIgogICAgICAgcHVyY2hhc2Vfc2VydmljZSAtPiBwdXJjaGFzZV9yZXBvc2l0b3J5ICJVc2EiCiAgICAgICBwdXJjaGFzZV9zZXJ2aWNlIC0+IG1vbmV5X3NlcnZpY2UgIlVzYSIKICAgICAgIHB1cmNoYXNlX3NlcnZpY2UgLT4gZGF0ZV9zZXJ2aWNlICJVc2EiCiAgICAgICBwdXJjaGFzZV9yZXBvc2l0b3J5IC0+IGRhdGFiYXNlICJBbG1hY2VuYSBkYXRvcyBlbiIKCiAgICAgICBzZWFyY2hfc2VydmljZSAtPiBwcm9kdWN0X3JlcG9zaXRvcnkgIlVzYSIKCiAgICAgICBtb25leV9zZXJ2aWNlIC0+IG1vbmV5X3JlcG9zaXRvcnkgIlVzYSIKICAgICAgIG1vbmV5X3JlcG9zaXRvcnkgLT4gZGF0YWJhc2UgIkFsbWFjZW5hIGRhdG9zIGVuIgogICAgfQoKICAgIHZpZXdzIHsKICAgICAgICBzeXN0ZW1jb250ZXh0IG1lcmNhZG9mbHV4ICJTeXN0ZW1Db250ZXh0IiB7CiAgICAgICAgICAgIGluY2x1ZGUgKgogICAgICAgICAgICBhdXRvTGF5b3V0CiAgICAgICAgfQoKICAgICAgICBjb250YWluZXIgbWVyY2Fkb2ZsdXggIkNvbnRhaW5lcnMiIHsKICAgICAgICAgICAgaW5jbHVkZSAqCiAgICAgICAgICAgIGF1dG9MYXlvdXQKICAgICAgICAgICAgZGVzY3JpcHRpb24gIkNvbnRlbmVkb3JlcyBkZWwgc2lzdGVtYSBNZXJjYWRvZmx1eCIKICAgICAgICB9CgogICAgICAgIGNvbXBvbmVudCBmbHV4X2FwcCAiQ29tcG9uZW50cyIgewogICAgICAgICAgICBpbmNsdWRlICoKICAgICAgICAgICAgYXV0b0xheW91dAogICAgICAgICAgICBkZXNjcmlwdGlvbiAiQ29tcG9uZW50ZXMgZGVsIHNpc3RlbWEgTWVyY2Fkb2ZsdXgiCiAgICAgICAgfQoKICAgICAgICBzdHlsZXMgewogICAgICAgICAgICAgICAgICAgIGVsZW1lbnQgIlBlcnNvbiIgewogICAgICAgICAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgICAgICAgICAgICAgIGZvbnRTaXplIDIyCiAgICAgICAgICAgICAgICAgICAgICAgIHNoYXBlIFBlcnNvbgogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICAgICBlbGVtZW50ICJDdXN0b21lciIgewogICAgICAgICAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICMwODQyN2IKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgZWxlbWVudCAiQmFuayBTdGFmZiIgewogICAgICAgICAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM5OTk5OTkKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgZWxlbWVudCAiU29mdHdhcmUgU3lzdGVtIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzExNjhiZAogICAgICAgICAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgIGVsZW1lbnQgIkV4dGVybmFsIFN5c3RlbSIgewogICAgICAgICAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM5OTk5OTkKICAgICAgICAgICAgICAgICAgICAgICAgY29sb3IgI2ZmZmZmZgogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICAgICBlbGVtZW50ICJJbnRlcm5hbCBTeXN0ZW0iIHsKICAgICAgICAgICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjNDM4ZGQ1CiAgICAgICAgICAgICAgICAgICAgICAgIGNvbG9yICNmZmZmZmYKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgZWxlbWVudCAiRXh0ZXJuYWwgU3lzdGVtIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIGJhY2tncm91bmQgI2ExYWJiNQogICAgICAgICAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgIGVsZW1lbnQgIldlYiBCcm93c2VyIiB7CiAgICAgICAgICAgICAgICAgICAgICAgIHNoYXBlIFdlYkJyb3dzZXIKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgZWxlbWVudCAiTW9iaWxlIEFwcCIgewogICAgICAgICAgICAgICAgICAgICAgICBzaGFwZSBNb2JpbGVEZXZpY2VMYW5kc2NhcGUKICAgICAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICAgICAgZWxlbWVudCAiRGF0YWJhc2UiIHsKICAgICAgICAgICAgICAgICAgICAgICAgYmFja2dyb3VuZCAjYTFhYmI1CiAgICAgICAgICAgICAgICAgICAgICAgIHNoYXBlIEN5bGluZGVyCiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgICAgIGVsZW1lbnQgIkNvbXBvbmVudCIgewogICAgICAgICAgICAgICAgICAgICAgICBiYWNrZ3JvdW5kICM4NWJiZjAKICAgICAgICAgICAgICAgICAgICAgICAgY29sb3IgIzAwMDAwMAogICAgICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgICAgICAgICBlbGVtZW50ICJSZXBvc2l0b3J5IiB7CiAgICAgICAgICAgICAgICAgICAgICAgIGJhY2tncm91bmQgIzA2NGE4ZgogICAgICAgICAgICAgICAgICAgICAgICBjb2xvciAjZmZmZmZmCiAgICAgICAgICAgICAgICAgICAgfQoKICAgICAgICAgICAgICAgICAgICBlbGVtZW50ICJGYWlsb3ZlciIgewogICAgICAgICAgICAgICAgICAgICAgICBvcGFjaXR5IDI1CiAgICAgICAgICAgICAgICAgICAgfQogICAgICAgICAgICAgICAgfQogICAgfQoKfQo="
+  },
+  "configuration" : { },
+  "model" : {
+    "people" : [ {
+      "id" : "1",
+      "tags" : "Element,Person,Customer",
+      "properties" : {
+        "structurizr.dsl.identifier" : "user"
+      },
+      "name" : "User",
+      "description" : "Un usuario de Mercadoflux.",
+      "relationships" : [ {
+        "id" : "19",
+        "tags" : "Relationship",
+        "sourceId" : "1",
+        "destinationId" : "3",
+        "description" : "Usa"
+      }, {
+        "id" : "20",
+        "sourceId" : "1",
+        "destinationId" : "2",
+        "description" : "Usa",
+        "linkedRelationshipId" : "19"
+      } ],
+      "location" : "Unspecified"
+    } ],
+    "softwareSystems" : [ {
+      "id" : "2",
+      "tags" : "Element,Software System",
+      "properties" : {
+        "structurizr.dsl.identifier" : "mercadoflux"
+      },
+      "name" : "Mercadoflux",
+      "group" : "Mercadoflux Group",
+      "location" : "Unspecified",
+      "containers" : [ {
+        "id" : "3",
+        "tags" : "Element,Container,Internal System",
+        "properties" : {
+          "structurizr.dsl.identifier" : "flux_app"
+        },
+        "name" : "Mercadoflux App",
+        "description" : "REST API",
+        "relationships" : [ {
+          "id" : "21",
+          "tags" : "Relationship",
+          "sourceId" : "3",
+          "destinationId" : "18",
+          "description" : "Almacena datos en"
+        } ],
+        "technology" : "Spring WebFlux",
+        "components" : [ {
+          "id" : "16",
+          "tags" : "Element,Component,Repository",
+          "properties" : {
+            "structurizr.dsl.identifier" : "purchase_repository"
+          },
+          "name" : "PurchaseRepository",
+          "description" : "Repository",
+          "relationships" : [ {
+            "id" : "37",
+            "tags" : "Relationship",
+            "sourceId" : "16",
+            "destinationId" : "18",
+            "description" : "Almacena datos en"
+          } ],
+          "group" : "Repositories (Puertos de salida)",
+          "technology" : "Purchase Repository",
+          "documentation" : { }
+        }, {
+          "id" : "6",
+          "tags" : "Element,Component,Controller",
+          "properties" : {
+            "structurizr.dsl.identifier" : "purchase_controller"
+          },
+          "name" : "PurchaseController",
+          "description" : "Controller",
+          "relationships" : [ {
+            "id" : "33",
+            "tags" : "Relationship",
+            "sourceId" : "6",
+            "destinationId" : "10",
+            "description" : "Usa"
+          } ],
+          "group" : "Controllers (Puertos de entrada)",
+          "technology" : "Spring WebFlux Controller",
+          "documentation" : { }
+        }, {
+          "id" : "7",
+          "tags" : "Element,Component,Internal System",
+          "properties" : {
+            "structurizr.dsl.identifier" : "user_service"
+          },
+          "name" : "UserService",
+          "description" : "Service",
+          "relationships" : [ {
+            "id" : "26",
+            "tags" : "Relationship",
+            "sourceId" : "7",
+            "destinationId" : "13",
+            "description" : "Usa"
+          }, {
+            "id" : "25",
+            "tags" : "Relationship",
+            "sourceId" : "7",
+            "destinationId" : "14",
+            "description" : "Usa"
+          } ],
+          "group" : "Services (implementan los casos de uso)",
+          "technology" : "User Service",
+          "documentation" : { }
+        }, {
+          "id" : "11",
+          "tags" : "Element,Component,Internal System",
+          "properties" : {
+            "structurizr.dsl.identifier" : "search_service"
+          },
+          "name" : "SearchProductService",
+          "description" : "Service",
+          "relationships" : [ {
+            "id" : "38",
+            "tags" : "Relationship",
+            "sourceId" : "11",
+            "destinationId" : "15",
+            "description" : "Usa"
+          } ],
+          "group" : "Services (implementan los casos de uso)",
+          "technology" : "Search Product Service",
+          "documentation" : { }
+        }, {
+          "id" : "15",
+          "tags" : "Element,Component,Repository",
+          "properties" : {
+            "structurizr.dsl.identifier" : "product_repository"
+          },
+          "name" : "ProductRepository",
+          "description" : "Repository",
+          "relationships" : [ {
+            "id" : "32",
+            "tags" : "Relationship",
+            "sourceId" : "15",
+            "destinationId" : "18",
+            "description" : "Almacena datos en"
+          } ],
+          "group" : "Repositories (Puertos de salida)",
+          "technology" : "Product Repository",
+          "documentation" : { }
+        }, {
+          "id" : "13",
+          "tags" : "Element,Component,Internal System",
+          "properties" : {
+            "structurizr.dsl.identifier" : "money_service"
+          },
+          "name" : "MoneyAccountService",
+          "description" : "Service",
+          "relationships" : [ {
+            "id" : "39",
+            "tags" : "Relationship",
+            "sourceId" : "13",
+            "destinationId" : "17",
+            "description" : "Usa"
+          } ],
+          "group" : "Services (auxiliares)",
+          "technology" : "Money Account Service",
+          "documentation" : { }
+        }, {
+          "id" : "4",
+          "tags" : "Element,Component,Controller",
+          "properties" : {
+            "structurizr.dsl.identifier" : "user_controller"
+          },
+          "name" : "UserController",
+          "description" : "Controller",
+          "relationships" : [ {
+            "id" : "24",
+            "tags" : "Relationship",
+            "sourceId" : "4",
+            "destinationId" : "8",
+            "description" : "Usa"
+          }, {
+            "id" : "23",
+            "tags" : "Relationship",
+            "sourceId" : "4",
+            "destinationId" : "7",
+            "description" : "Usa"
+          } ],
+          "group" : "Controllers (Puertos de entrada)",
+          "technology" : "Spring WebFlux Controller",
+          "documentation" : { }
+        }, {
+          "id" : "5",
+          "tags" : "Element,Component,Controller",
+          "properties" : {
+            "structurizr.dsl.identifier" : "product_controller"
+          },
+          "name" : "ProductController",
+          "description" : "Controller",
+          "relationships" : [ {
+            "id" : "30",
+            "tags" : "Relationship",
+            "sourceId" : "5",
+            "destinationId" : "11",
+            "description" : "Usa"
+          }, {
+            "id" : "29",
+            "tags" : "Relationship",
+            "sourceId" : "5",
+            "destinationId" : "9",
+            "description" : "Usa"
+          } ],
+          "group" : "Controllers (Puertos de entrada)",
+          "technology" : "Spring WebFlux Controller",
+          "documentation" : { }
+        }, {
+          "id" : "14",
+          "tags" : "Element,Component,Repository",
+          "properties" : {
+            "structurizr.dsl.identifier" : "user_repository"
+          },
+          "name" : "UserRepository",
+          "description" : "Repository",
+          "relationships" : [ {
+            "id" : "22",
+            "tags" : "Relationship",
+            "sourceId" : "14",
+            "destinationId" : "18",
+            "description" : "Almacena datos en"
+          } ],
+          "group" : "Repositories (Puertos de salida)",
+          "technology" : "User Repository",
+          "documentation" : { }
+        }, {
+          "id" : "12",
+          "tags" : "Element,Component,Internal System",
+          "properties" : {
+            "structurizr.dsl.identifier" : "date_service"
+          },
+          "name" : "DateService",
+          "description" : "Service",
+          "group" : "Services (auxiliares)",
+          "technology" : "Dates Service",
+          "documentation" : { }
+        }, {
+          "id" : "8",
+          "tags" : "Element,Component,Internal System",
+          "properties" : {
+            "structurizr.dsl.identifier" : "auth_user_service"
+          },
+          "name" : "AuthUserService",
+          "description" : "Service",
+          "relationships" : [ {
+            "id" : "28",
+            "tags" : "Relationship",
+            "sourceId" : "8",
+            "destinationId" : "9",
+            "description" : "Usa"
+          }, {
+            "id" : "27",
+            "tags" : "Relationship",
+            "sourceId" : "8",
+            "destinationId" : "7",
+            "description" : "Usa"
+          } ],
+          "group" : "Services (implementan los casos de uso)",
+          "technology" : "Auth User Service",
+          "documentation" : { }
+        }, {
+          "id" : "17",
+          "tags" : "Element,Component,Repository",
+          "properties" : {
+            "structurizr.dsl.identifier" : "money_repository"
+          },
+          "name" : "MoneyAccountRepository",
+          "description" : "Repository",
+          "relationships" : [ {
+            "id" : "40",
+            "tags" : "Relationship",
+            "sourceId" : "17",
+            "destinationId" : "18",
+            "description" : "Almacena datos en"
+          } ],
+          "group" : "Repositories (Puertos de salida)",
+          "technology" : "Money Account Repository",
+          "documentation" : { }
+        }, {
+          "id" : "9",
+          "tags" : "Element,Component,Internal System",
+          "properties" : {
+            "structurizr.dsl.identifier" : "product_service"
+          },
+          "name" : "ProductService",
+          "description" : "Service",
+          "relationships" : [ {
+            "id" : "31",
+            "tags" : "Relationship",
+            "sourceId" : "9",
+            "destinationId" : "15",
+            "description" : "Usa"
+          } ],
+          "group" : "Services (implementan los casos de uso)",
+          "technology" : "Product Service",
+          "documentation" : { }
+        }, {
+          "id" : "10",
+          "tags" : "Element,Component,Internal System",
+          "properties" : {
+            "structurizr.dsl.identifier" : "purchase_service"
+          },
+          "name" : "PurchaseService",
+          "description" : "Service",
+          "relationships" : [ {
+            "id" : "35",
+            "tags" : "Relationship",
+            "sourceId" : "10",
+            "destinationId" : "13",
+            "description" : "Usa"
+          }, {
+            "id" : "36",
+            "tags" : "Relationship",
+            "sourceId" : "10",
+            "destinationId" : "12",
+            "description" : "Usa"
+          }, {
+            "id" : "34",
+            "tags" : "Relationship",
+            "sourceId" : "10",
+            "destinationId" : "16",
+            "description" : "Usa"
+          } ],
+          "group" : "Services (implementan los casos de uso)",
+          "technology" : "Purchase Service",
+          "documentation" : { }
+        } ],
+        "documentation" : { }
+      }, {
+        "id" : "18",
+        "tags" : "Element,Container,Database",
+        "properties" : {
+          "structurizr.dsl.identifier" : "database"
+        },
+        "name" : "Mongo Atlas",
+        "description" : "MongoDB en la nube",
+        "technology" : "Database",
+        "documentation" : { }
+      } ],
+      "documentation" : { }
+    } ]
+  },
+  "documentation" : { },
+  "views" : {
+    "systemContextViews" : [ {
+      "key" : "SystemContext",
+      "order" : 1,
+      "softwareSystemId" : "2",
+      "dimensions" : {
+        "width" : 890,
+        "height" : 1474
+      },
+      "automaticLayout" : {
+        "implementation" : "Graphviz",
+        "rankDirection" : "TopBottom",
+        "rankSeparation" : 300,
+        "nodeSeparation" : 300,
+        "edgeSeparation" : 0,
+        "vertices" : false
+      },
+      "enterpriseBoundaryVisible" : true,
+      "relationships" : [ {
+        "id" : "20"
+      } ],
+      "elements" : [ {
+        "id" : "1",
+        "x" : 245,
+        "y" : 200
+      }, {
+        "id" : "2",
+        "x" : 220,
+        "y" : 900
+      } ]
+    } ],
+    "containerViews" : [ {
+      "key" : "Containers",
+      "order" : 2,
+      "description" : "Contenedores del sistema Mercadoflux",
+      "softwareSystemId" : "2",
+      "paperSize" : "A5_Portrait",
+      "dimensions" : {
+        "width" : 1108,
+        "height" : 2120
+      },
+      "automaticLayout" : {
+        "implementation" : "Graphviz",
+        "rankDirection" : "TopBottom",
+        "rankSeparation" : 300,
+        "nodeSeparation" : 300,
+        "edgeSeparation" : 0,
+        "vertices" : false
+      },
+      "externalSoftwareSystemBoundariesVisible" : true,
+      "relationships" : [ {
+        "id" : "21"
+      }, {
+        "id" : "19"
+      } ],
+      "elements" : [ {
+        "id" : "1",
+        "x" : 354,
+        "y" : 208
+      }, {
+        "id" : "3",
+        "x" : 329,
+        "y" : 908
+      }, {
+        "id" : "18",
+        "x" : 329,
+        "y" : 1508
+      } ]
+    } ],
+    "componentViews" : [ {
+      "key" : "Components",
+      "order" : 3,
+      "description" : "Componentes del sistema Mercadoflux",
+      "dimensions" : {
+        "width" : 3180,
+        "height" : 3740
+      },
+      "automaticLayout" : {
+        "implementation" : "Graphviz",
+        "rankDirection" : "TopBottom",
+        "rankSeparation" : 300,
+        "nodeSeparation" : 300,
+        "edgeSeparation" : 0,
+        "vertices" : false
+      },
+      "containerId" : "3",
+      "externalContainerBoundariesVisible" : true,
+      "relationships" : [ {
+        "id" : "40"
+      }, {
+        "id" : "32"
+      }, {
+        "id" : "31",
+        "vertices" : [ {
+          "x" : 1210,
+          "y" : 1844
+        }, {
+          "x" : 1047,
+          "y" : 1936
+        }, {
+          "x" : 1047,
+          "y" : 2444
+        } ]
+      }, {
+        "id" : "30"
+      }, {
+        "id" : "29",
+        "vertices" : [ {
+          "x" : 1351,
+          "y" : 644
+        }, {
+          "x" : 601,
+          "y" : 736
+        }, {
+          "x" : 601,
+          "y" : 1140
+        } ]
+      }, {
+        "id" : "28"
+      }, {
+        "id" : "27"
+      }, {
+        "id" : "37",
+        "vertices" : [ {
+          "x" : 2339,
+          "y" : 3148
+        } ]
+      }, {
+        "id" : "26"
+      }, {
+        "id" : "36"
+      }, {
+        "id" : "25"
+      }, {
+        "id" : "35",
+        "vertices" : [ {
+          "x" : 1960,
+          "y" : 1844
+        } ]
+      }, {
+        "id" : "24"
+      }, {
+        "id" : "34",
+        "vertices" : [ {
+          "x" : 2810,
+          "y" : 1440
+        }, {
+          "x" : 2810,
+          "y" : 2444
+        } ]
+      }, {
+        "id" : "23",
+        "vertices" : [ {
+          "x" : 368,
+          "y" : 736
+        }, {
+          "x" : 368,
+          "y" : 1140
+        } ]
+      }, {
+        "id" : "33"
+      }, {
+        "id" : "22",
+        "vertices" : [ {
+          "x" : 839,
+          "y" : 3148
+        } ]
+      }, {
+        "id" : "38",
+        "vertices" : [ {
+          "x" : 2606,
+          "y" : 1936
+        }, {
+          "x" : 2606,
+          "y" : 2444
+        }, {
+          "x" : 1589,
+          "y" : 2536
+        } ]
+      }, {
+        "id" : "39"
+      } ],
+      "elements" : [ {
+        "id" : "11",
+        "x" : 1501,
+        "y" : 840
+      }, {
+        "id" : "12",
+        "x" : 1976,
+        "y" : 2040
+      }, {
+        "id" : "13",
+        "x" : 1226,
+        "y" : 2040
+      }, {
+        "id" : "14",
+        "x" : 239,
+        "y" : 2640
+      }, {
+        "id" : "15",
+        "x" : 989,
+        "y" : 2640
+      }, {
+        "id" : "16",
+        "x" : 2489,
+        "y" : 2640
+      }, {
+        "id" : "17",
+        "x" : 1739,
+        "y" : 2640
+      }, {
+        "id" : "18",
+        "x" : 1364,
+        "y" : 3240
+      }, {
+        "id" : "4",
+        "x" : 751,
+        "y" : 240
+      }, {
+        "id" : "5",
+        "x" : 1501,
+        "y" : 240
+      }, {
+        "id" : "6",
+        "x" : 2251,
+        "y" : 240
+      }, {
+        "id" : "7",
+        "x" : 610,
+        "y" : 1440
+      }, {
+        "id" : "8",
+        "x" : 751,
+        "y" : 840
+      }, {
+        "id" : "9",
+        "x" : 1360,
+        "y" : 1440
+      }, {
+        "id" : "10",
+        "x" : 2251,
+        "y" : 840
+      } ]
+    } ],
+    "configuration" : {
+      "branding" : { },
+      "styles" : {
+        "elements" : [ {
+          "tag" : "Person",
+          "color" : "#ffffff",
+          "fontSize" : 22,
+          "shape" : "Person"
+        }, {
+          "tag" : "Customer",
+          "background" : "#08427b"
+        }, {
+          "tag" : "Bank Staff",
+          "background" : "#999999"
+        }, {
+          "tag" : "Software System",
+          "background" : "#1168bd",
+          "color" : "#ffffff"
+        }, {
+          "tag" : "External System",
+          "background" : "#a1abb5",
+          "color" : "#ffffff"
+        }, {
+          "tag" : "Internal System",
+          "background" : "#438dd5",
+          "color" : "#ffffff"
+        }, {
+          "tag" : "Web Browser",
+          "shape" : "WebBrowser"
+        }, {
+          "tag" : "Mobile App",
+          "shape" : "MobileDeviceLandscape"
+        }, {
+          "tag" : "Database",
+          "background" : "#a1abb5",
+          "shape" : "Cylinder"
+        }, {
+          "tag" : "Component",
+          "background" : "#85bbf0",
+          "color" : "#000000"
+        }, {
+          "tag" : "Repository",
+          "background" : "#064a8f",
+          "color" : "#ffffff"
+        }, {
+          "tag" : "Failover",
+          "opacity" : 25
+        } ]
+      },
+      "terminology" : { },
+      "metadataSymbols" : "SquareBrackets",
+      "lastSavedView" : "SystemContext"
+    }
+  }
+}

@@ -1,0 +1,225 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+title "Mercadoflux Diagrama de Clases"
+
+package core {
+    package domain #d2defc {
+        package Entities {
+                class Product
+                class ProductReference
+                class SellerInfo
+                class User
+        }
+
+        package "Value Objects" {
+            enum ProductCategory
+            enum ProductStatus
+            enum PurchaseStatus
+            enum UserStatus
+            enum UserType
+
+            package "DTO" {
+                class AuthUser
+                class DeleteUserRequest
+                class ProductSearchResult
+                class PurchaseProduct
+                class RegisterUser
+                class SaveProduct
+                class SearchProduct
+                class SearchProductInternal
+                class UpdateProduct
+            }
+        }
+        package "Aggregates" {
+            class Purchase
+            class MoneyAccount
+        }
+
+
+        package repository {
+            interface ProductRepository
+            interface UserRepository
+            interface PurchaseRepository
+            interface MoneyAccountRepository
+        }
+
+
+        package "service" {
+            class ProductService
+            class UserService
+            class PurchaseService
+            class MoneyAccountService
+            class SearchProductService
+            class AuthUserService
+        }
+
+        package "usecase" {
+            interface MoneyAccountUseCases
+            interface ProductUseCases
+            interface PurchaseUseCases
+            interface UserUseCases
+        }
+    }
+
+
+
+    package "ports" #f7d7df {
+        package "web" {
+            package "controller" {
+                class ProductController
+                class UserController
+                class PurchaseController
+                class MoneyAccountController
+            }
+
+            package "dto" {
+                class AddFundsRequest
+                class LoginRequest
+                class PurchaseProductResponse
+                class PurchaseRequest
+                class SaveProductRequest
+                class SaveProductResponse
+                class SearchProductRequest
+                class UpdateProductRequest
+                class UpdateUserRequest
+            }
+
+            package "web.adapter" {
+                class ProductAdapter
+                class PurchaseAdapter
+            }
+        }
+
+        package "persistence" {
+            package "persistence.adapter" {
+                class MoneyAccountRepositoryMongoAdapter
+                class ProductRepositoryMongoAdapter
+                class PurchaseRepositoryMongoAdapter
+                class UserRepositoryMongoAdapter
+            }
+
+            package "documents" {
+                class MoneyAccountDocument
+                class ProductDocument
+                class PurchaseDocument
+                class UserDocument
+            }
+            package "repository.mongo" {
+                interface ReactiveMoneyAccountRepository
+                interface ReactiveProductRepository
+                interface ReactivePurchaseRepository
+                interface ReactiveUserRepository
+            }
+        }
+    }
+
+}
+
+class MoneyAccount {
+	-user: User
+	-balance: BigDecimal
+}
+
+class Product  {
+	+ name: String
+	+ description: String
+	+ price: BigDecimal
+	+ stock: int
+	+ seller: String
+}
+
+enum ProductCategory  {
+	TECHNOLOGY
+	FASHION
+	ELECTRICAL_APPLIANCE
+}
+
+class Purchase {
+    + String id
+    + LocalDateTime creationDate
+    + int quantity
+}
+
+enum PurchaseStatus {
+    PENDING,
+	CONFIRMED
+}
+
+class User {
+	+ name: String
+	+ lastName: String
+	+ email: String
+	+ password: String
+	+ cuit: String
+}
+
+class ProductReference {
+    + String productReferenceId
+    + String name
+    + String description
+    + BigDecimal price
+}
+
+class SellerInfo {
+    + String id
+    + String name
+}
+
+Purchase *-- User : buyer >
+Purchase *-- User : seller >
+Purchase *-- ProductReference : has >
+Purchase o-- PurchaseStatus : has >
+
+ProductReference *-- SellerInfo : has >
+
+User o-- UserType : has >
+User o-- UserStatus : has >
+
+Product o-- ProductCategory : has >
+Product o-- ProductStatus : has >
+Product o-- User : seller >
+
+
+ProductController --> ProductUseCases
+ProductController o-- ProductAdapter : uses >
+ProductUseCases <|-- ProductService
+ProductUseCases <|-- SearchProductService
+ProductService --> ProductRepository
+
+ProductAdapter --> UserService
+
+UserController --> UserUseCases
+UserUseCases <|-- UserService
+UserUseCases <|-- AuthUserService
+UserService --> UserRepository
+AuthUserService --> UserService
+AuthUserService --> ProductService
+
+PurchaseController --> PurchaseUseCases
+PurchaseController o-- PurchaseAdapter : uses >
+PurchaseUseCases <|-- PurchaseService
+PurchaseService --> PurchaseRepository
+
+PurchaseAdapter --> PurchaseService
+PurchaseAdapter --> UserService
+
+MoneyAccountController --> MoneyAccountUseCases
+MoneyAccountUseCases <|-- MoneyAccountService
+MoneyAccountService --> MoneyAccountRepository
+
+
+
+MoneyAccountRepository <|-- MoneyAccountRepositoryMongoAdapter
+MoneyAccountRepositoryMongoAdapter --> ReactiveMoneyAccountRepository
+
+ProductRepository <|-- ProductRepositoryMongoAdapter
+ProductRepositoryMongoAdapter --> ReactiveProductRepository
+
+PurchaseRepository <|-- PurchaseRepositoryMongoAdapter
+PurchaseRepositoryMongoAdapter --> ReactivePurchaseRepository
+
+UserRepository <|-- UserRepositoryMongoAdapter
+UserRepositoryMongoAdapter --> ReactiveUserRepository
+
+@enduml
