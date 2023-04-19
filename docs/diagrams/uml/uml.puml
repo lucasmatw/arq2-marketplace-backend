@@ -1,14 +1,16 @@
 @startuml
 'https://plantuml.com/class-diagram
 
+
+
 title "Mercadoflux Diagrama de Clases"
 
 package core {
     package domain #d2defc {
         package Entities {
                 class Product
-                class ProductReference
-                class SellerInfo
+
+
                 class User
         }
 
@@ -18,6 +20,9 @@ package core {
             enum PurchaseStatus
             enum UserStatus
             enum UserType
+            class ProductReference
+
+            class SellerInfo
 
             package "DTO" {
                 class AuthUser
