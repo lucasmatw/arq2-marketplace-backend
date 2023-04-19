@@ -1,12 +1,12 @@
 workspace {
 
     model {
-        user = person "User" "Un usuario de Mercadoflux." "Customer"
+        user = person "User" "Un usuario de Mercadoflux API." "Customer"
 
         group "Mercadoflux Group" {
             mercadoflux = softwaresystem "Mercadoflux" "" {
 
-                flux_app = container "Mercadoflux App" "REST API" "Spring WebFlux" "Internal System" {
+                flux_app = container "Mercadoflux App" "REST API" "Java 17" "Internal System" {
 
                     group "Controllers (Puertos de entrada)" {
                         user_controller = component "UserController" "Controller" "Spring WebFlux Controller" "Controller"
@@ -35,7 +35,7 @@ workspace {
                     }
 
                 }
-                database = container "Mongo Atlas" "MongoDB en la nube" "Database" "Database"
+                database = container "Mongo Atlas" "MongoDB en la nube" "MongoDB" "Database"
 
             }
         }
